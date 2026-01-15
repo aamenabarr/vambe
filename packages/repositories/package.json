@@ -1,0 +1,22 @@
+{
+  "name": "repositories",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit push",
+    "lint": "tsc && eslint \"**/*.ts*\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "database": "1.0.0",
+    "domain-clean": "1.0.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "tsconfig": "1.0.0"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/dashboard" },
+    { "path": "./packages/database" },
+    { "path": "./packages/domain-clean" },
+    { "path": "./packages/repositories" },
+    { "path": "./packages/translations" },
+    { "path": "./packages/ui" }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "translations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tsc && eslint \"**/*.ts*\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "domain-clean": "1.0.0"
+  },
+  "devDependencies": {
+    "tsconfig": "1.0.0"
+  }
+}

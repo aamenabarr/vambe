@@ -1,0 +1,22 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit push",
+    "lint": "tsc && eslint \"**/*.ts*\""
+  },
+  "dependencies": {
+    "domain-clean": "1.0.0",
+    "drizzle-orm": "^0.32.0",
+    "pg": "^8.12.0",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.6",
+    "drizzle-kit": "^0.23.0",
+    "tsconfig": "1.0.0"
+  }
+}

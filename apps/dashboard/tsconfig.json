@@ -1,0 +1,17 @@
+{
+  "extends": "tsconfig/nextjs.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "strict": true,
+    "paths": {
+      "@auth": ["./src/auth.ts"],
+      "@images/*": ["./public/assets/*"],
+      "@helpers/*": ["./src/app/_helpers/*"],
+      "@components/*": ["./src/app/_components/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "next.config.js", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
