@@ -7,8 +7,8 @@ import { Toaster } from 'ui'
 import { cn } from 'ui/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Vambe Dashboard',
-  description: 'Vambe Dashboard',
+  title: 'vambe',
+  description: 'vambe',
 }
 
 const inter = Inter({ subsets: ['latin'] })
