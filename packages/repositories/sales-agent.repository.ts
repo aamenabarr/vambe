@@ -1,6 +1,7 @@
 import { drizzleClient } from 'database'
 import { SalesAgent as SalesAgentEntity } from 'domain-clean/sales-agent/sales-agent.entity'
-import { SalesAgent } from '../database/schemas'
+
+import { SalesAgent, salesAgentsTable } from '../database/schemas'
 
 export const buildSalesAgent = (data: SalesAgent): SalesAgentEntity => {  
   return new SalesAgentEntity(data)
@@ -15,5 +16,9 @@ export class SalesAgentRepository {
 
   setContext(context: typeof drizzleClient) {
     this._context = context
+  }
+
+  async deleteAll() {
+    return await this._context.delete(salesAgentsTable)
   }
 }

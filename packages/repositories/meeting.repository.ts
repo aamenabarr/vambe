@@ -1,6 +1,7 @@
 import { drizzleClient } from 'database'
 import { Meeting as MeetingEntity } from 'domain-clean/meeting/meeting.entity'
-import { Meeting } from '../database/schemas'
+
+import { Meeting, meetingsTable } from '../database/schemas'
 
 export const buildMeeting = (data: Meeting): MeetingEntity => {
   return new MeetingEntity(data)
@@ -15,5 +16,9 @@ export class MeetingRepository {
 
   setContext(context: typeof drizzleClient) {
     this._context = context
+  }
+
+  async deleteAll() {
+    return await this._context.delete(meetingsTable)
   }
 }

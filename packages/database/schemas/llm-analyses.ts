@@ -1,5 +1,5 @@
 import { integer, pgTable, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { meetingsTable } from './meetings'
+
 import {
   purchaseIntentionEnum,
   technologicalMaturityEnum,
@@ -9,6 +9,7 @@ import {
   industryEnum,
   buyerSentimentEnum,
 } from './enums'
+import { meetingsTable } from './meetings'
 
 export const llmAnalysesTable = pgTable('llm_analyses', {
   id: uuid('id').primaryKey().defaultRandom(),

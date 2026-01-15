@@ -1,4 +1,5 @@
 import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+
 import { customersTable } from './customers'
 import { salesAgentsTable } from './sales-agents'
 

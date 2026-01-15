@@ -1,6 +1,4 @@
 import { drizzleClient } from 'database'
-import { LlmAnalysis as LlmAnalysisEntity } from 'domain-clean/llm-analysis/llm-analysis.entity'
-import { LlmAnalysis } from '../database/schemas'
 import {
   PurchaseIntention,
   TechnologicalMaturity,
@@ -10,6 +8,9 @@ import {
   BuyerProfile,
   BuyerSentiment,
 } from 'domain-clean/enums'
+import { LlmAnalysis as LlmAnalysisEntity } from 'domain-clean/llm-analysis/llm-analysis.entity'
+
+import { LlmAnalysis, llmAnalysesTable } from '../database/schemas'
 
 export const buildLlmAnalysis = (data: LlmAnalysis): LlmAnalysisEntity => {
   return new LlmAnalysisEntity({
@@ -33,5 +34,9 @@ export class LlmAnalysisRepository {
 
   setContext(context: typeof drizzleClient) {
     this._context = context
+  }
+
+  async deleteAll() {
+    return await this._context.delete(llmAnalysesTable)
   }
 }
