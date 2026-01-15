@@ -1,0 +1,6 @@
+export enum BuyerSentiment {
+  UNDEFINED = 'UNDEFINED',
+  CONFIDENT = 'CONFIDENT',
+  NEUTRAL = 'NEUTRAL',
+  SKEPTICAL = 'SKEPTICAL',
+}
