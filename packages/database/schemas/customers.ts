@@ -4,7 +4,7 @@ export const customersTable = pgTable('customers', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
-  phone: text('phone'),
+  phone: text('phone').notNull(),
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'string',

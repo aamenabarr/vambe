@@ -1,7 +1,13 @@
 import { NextPage } from 'next'
 
+import { UploadCsvButton } from './_components/upload-csv-button'
+
 const Home: NextPage = () => {
-  return null
+  return (
+    <div>
+      <UploadCsvButton />
+    </div>    
+  )
 }
 
 export default Home

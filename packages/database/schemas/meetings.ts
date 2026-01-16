@@ -17,7 +17,7 @@ export const meetingsTable = pgTable('meetings', {
   })
     .notNull(),
   closed: boolean('closed').notNull().default(false),
-  trancript: text('trancript'),
+  transcript: text('transcript').notNull(),
   createdAt: timestamp('created_at', {
     withTimezone: true,
     mode: 'string',

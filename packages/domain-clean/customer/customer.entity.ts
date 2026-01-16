@@ -4,7 +4,7 @@ export const CustomerSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1),
   email: z.string().email(),
-  phone: z.string().nullable().optional(),
+  phone: z.string().min(1),
   createdAt: z.string(),
   updatedAt: z.string(),
 })

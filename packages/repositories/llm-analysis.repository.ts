@@ -22,6 +22,8 @@ export const buildLlmAnalysis = (data: LlmAnalysis): LlmAnalysisEntity => {
     purchaseObjections: data.purchaseObjections as PurchaseObjection[],
     buyerProfile: data.buyerProfile as BuyerProfile,
     buyerSentiment: data.buyerSentiment as BuyerSentiment,
+    createdAt: typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
+    updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
   })
 }
 
@@ -34,6 +36,35 @@ export class LlmAnalysisRepository {
 
   setContext(context: typeof drizzleClient) {
     this._context = context
+  }
+
+  async create(data: {
+    meetingId: string
+    leadScore: number
+    purchaseIntention: PurchaseIntention
+    technologicalMaturity: TechnologicalMaturity
+    buyerProfile: BuyerProfile
+    buyerSentiment: BuyerSentiment
+    customerPains: CustomerPain[]
+    purchaseObjections: PurchaseObjection[]
+    industry: Industry
+  }) {
+    const [result] = await this._context
+      .insert(llmAnalysesTable)
+      .values({
+        meetingId: data.meetingId,
+        leadScore: data.leadScore,
+        purchaseIntention: data.purchaseIntention,
+        technologicalMaturity: data.technologicalMaturity,
+        buyerProfile: data.buyerProfile,
+        buyerSentiment: data.buyerSentiment,
+        customerPains: data.customerPains,
+        purchaseObjections: data.purchaseObjections,
+        industry: data.industry,
+      })
+      .returning()
+
+    return buildLlmAnalysis(result)
   }
 
   async deleteAll() {

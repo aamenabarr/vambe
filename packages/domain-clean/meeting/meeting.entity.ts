@@ -6,7 +6,7 @@ export const MeetingSchema = z.object({
   salesAgentId: z.string().uuid(),
   date: z.string(),
   closed: z.boolean(),
-  trancript: z.string().nullable().optional(),
+  transcript: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 })
@@ -39,8 +39,8 @@ export class Meeting {
     return this._data.closed
   }
 
-  get trancript() {
-    return this._data.trancript
+  get transcript() {
+    return this._data.transcript
   }
 
   get createdAt() {
