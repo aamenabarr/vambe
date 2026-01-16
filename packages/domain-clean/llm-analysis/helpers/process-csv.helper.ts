@@ -66,7 +66,6 @@ export const parseCsv = (csvContent: string): ProcessedCsvData => {
       row[header] = values[index]?.replace(/^"|"$/g, '') || ''
     })
 
-    // Buscar índices de columnas en español
     const salesAgentIndex = headers.findIndex(
       (h) => h.includes('vendedor') || h.includes('asignado'),
     )

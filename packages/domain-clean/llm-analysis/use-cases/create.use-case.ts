@@ -1,4 +1,3 @@
-import { drizzleClient } from 'database'
 import OpenAIClient from 'openai-client'
 import { CustomerRepository } from 'repositories/customer.repository'
 import { LlmAnalysisRepository } from 'repositories/llm-analysis.repository'
@@ -19,11 +18,6 @@ export const createLlmAnalysisUseCase = async (csvContent: string) => {
   const customerRepository = new CustomerRepository()
   const meetingRepository = new MeetingRepository()
   const llmAnalysisRepository = new LlmAnalysisRepository()
-
-  salesAgentRepository.setContext(drizzleClient)
-  customerRepository.setContext(drizzleClient)
-  meetingRepository.setContext(drizzleClient)
-  llmAnalysisRepository.setContext(drizzleClient)
 
   await llmAnalysisRepository.deleteAll()
   await meetingRepository.deleteAll()

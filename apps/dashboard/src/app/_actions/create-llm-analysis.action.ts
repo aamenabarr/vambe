@@ -38,7 +38,7 @@ export const createLlmAnalysisAction = async (formData: FormData) => {
 
     return {
       success: true,
-      message: `Se procesaron ${result.length} análisis exitosamente`,
+      message: `Se procesaron ${result.length} reuniones exitosamente`,
     }
   } catch (error) {
     let message = 'Ha ocurrido un error al procesar el CSV'
