@@ -8,19 +8,16 @@ Tu tarea es analizar cada transcripción y categorizar la reunión según los si
   "leadScore": <número entero entre 0 y 100>,
   "purchaseIntention": "<valor único del enum>",
   "technologicalMaturity": "<valor único del enum>",
-  "buyerProfile": "<valor único del enum>",
+  "vambeDiscoverySource": "<valor único del enum>",
   "buyerSentiment": "<valor único del enum>",
   "customerPains": ["<array de valores del enum>"],
   "purchaseObjections": ["<array de valores del enum>"],
   "industry": "<valor único del enum>"
 }
 
-================================================================================
 CATEGORÍAS Y CRITERIOS DE EVALUACIÓN
-================================================================================
 
 1. leadScore (número entero 0-100)
------------------------------------
 Puntuación general del lead basada en:
 - Intención de compra (30%)
 - Madurez tecnológica (20%)
@@ -34,10 +31,7 @@ Escala:
 - 61-85: Lead caliente, buen interés y fit
 - 86-100: Lead muy caliente, alta probabilidad de cierre
 
-================================================================================
-
 2. purchaseIntention (valor único)
------------------------------------
 Evalúa la intención de compra del cliente.
 
 Valores posibles:
@@ -45,10 +39,7 @@ Valores posibles:
 - "MEDIUM" (Media): Cliente comparando soluciones, tiene timeline aproximado, menciona necesidad pero sin urgencia crítica
 - "HIGH" (Alta): Cliente con necesidad urgente, menciona presupuesto aprobado o en proceso, busca implementación pronta, hace preguntas específicas sobre implementación
 
-================================================================================
-
 3. technologicalMaturity (valor único)
----------------------------------------
 Nivel de adopción tecnológica del cliente.
 
 Valores posibles:
@@ -57,22 +48,22 @@ Valores posibles:
 - "DIGITALIZED" (Digitalizado): Usan herramientas digitales básicas (CRM simple, email, hojas de cálculo), abiertos a mejorar
 - "TECH_SAVVY" (Tecnológicamente avanzado): Usan múltiples herramientas integradas, APIs, automatizaciones, buscan soluciones avanzadas
 
-================================================================================
-
-4. buyerProfile (valor único)
-------------------------------
-Perfil psicológico del comprador en la reunión.
+4. vambeDiscoverySource (valor único)
+De dónde se enteró el cliente sobre Vambe.
 
 Valores posibles:
-- "UNDEFINED" (Indefinido): No hay suficiente información
-- "ANALYTICAL" (Analítico): Hace muchas preguntas técnicas, pide datos, ROI, métricas, casos de estudio, quiere ver números y evidencia
-- "RELATIONAL" (Relacional): Enfocado en el equipo, la experiencia del cliente, el trato humano, preocupado por el impacto en las personas
-- "VISIONARY" (Visionario): Habla de transformación, innovación, futuro, escalabilidad, crecimiento, visión a largo plazo
-
-================================================================================
+- "UNDEFINED" (Indefinido): No hay suficiente información en la transcripción
+- "CONFERENCE" (Conferencia/Seminario/Taller/Webinar/Feria): Menciona que conoció Vambe en una conferencia, seminario, taller, webinar, feria o evento similar
+- "GOOGLE_SEARCH" (Búsqueda en Google): Menciona que encontró Vambe buscando en Google o en una búsqueda en línea
+- "COLLEAGUE_RECOMMENDATION" (Recomendación de Colega/Amigo): Menciona que un colega, compañero de trabajo, amigo o conocido le recomendó Vambe
+- "LINKEDIN" (LinkedIn): Menciona que conoció Vambe a través de LinkedIn o una publicación en LinkedIn
+- "PODCAST" (Podcast): Menciona que escuchó sobre Vambe en un podcast
+- "ONLINE_ARTICLE" (Artículo en Línea): Menciona que leyó sobre Vambe en un artículo en línea
+- "FORUM_GROUP" (Foro/Grupo): Menciona que conoció Vambe en un foro, grupo de emprendedores, o grupo similar
+- "NETWORKING_EVENT" (Evento de Networking): Menciona que conoció Vambe en un evento de networking
+- "OTHER" (Otro): Otras formas de conocer Vambe no categorizadas
 
 5. buyerSentiment (valor único)
---------------------------------
 Sentimiento general del comprador durante la reunión.
 
 Valores posibles:
@@ -81,10 +72,7 @@ Valores posibles:
 - "NEUTRAL" (Neutral): Profesional, reservado, escucha sin mostrar emoción fuerte, hace preguntas sin comprometerse
 - "SKEPTICAL" (Escéptico): Dudoso, menciona experiencias negativas previas, cuestiona beneficios, muestra resistencia o desconfianza
 
-================================================================================
-
 6. customerPains (ARRAY - puede tener múltiples valores)
----------------------------------------------------------
 Problemas o dolores que el cliente menciona. Identifica TODOS los que apliquen.
 
 Valores posibles:
@@ -102,10 +90,7 @@ Valores posibles:
 IMPORTANTE: Este campo es un ARRAY. Incluye todos los pain points mencionados.
 Ejemplo: ["HIGH_VOLUME_INTERACTIONS", "TEAM_OVERLOAD", "RESPONSE_TIME_DELAYS"]
 
-================================================================================
-
 7. purchaseObjections (ARRAY - puede tener múltiples valores)
---------------------------------------------------------------
 Objeciones o preocupaciones que el cliente expresa. Identifica TODAS las que apliquen.
 
 Valores posibles:
@@ -123,10 +108,7 @@ Valores posibles:
 IMPORTANTE: Este campo es un ARRAY. Incluye todas las objeciones mencionadas.
 Ejemplo: ["BUDGET_CONSTRAINTS", "IMPLEMENTATION_EFFORT"]
 
-================================================================================
-
 8. industry (valor único)
---------------------------
 Industria o sector del cliente.
 
 Valores posibles:
@@ -146,14 +128,12 @@ Valores posibles:
 - "NGO_SOCIAL" (ONG/Social): Organizaciones sin fines de lucro
 - "OTHER" (Otro): Otras industrias
 
-================================================================================
 INSTRUCCIONES IMPORTANTES
-================================================================================
 
 1. Responde SOLO con JSON válido, sin texto adicional antes o después
 
 2. Campos únicos vs Arrays:
-   - Campos ÚNICOS (solo un valor): purchaseIntention, technologicalMaturity, buyerProfile, buyerSentiment, industry
+   - Campos ÚNICOS (solo un valor): purchaseIntention, technologicalMaturity, vambeDiscoverySource, buyerSentiment, industry
    - Campos ARRAY (múltiples valores): customerPains, purchaseObjections
 
 3. Usa UNDEFINED cuando no haya información suficiente para categorizar
@@ -164,21 +144,17 @@ INSTRUCCIONES IMPORTANTES
 
 6. leadScore: Calcula considerando todos los factores mencionados
 
-================================================================================
 EJEMPLO DE RESPUESTA
-================================================================================
 
 {
   "leadScore": 75,
   "purchaseIntention": "HIGH",
   "technologicalMaturity": "DIGITALIZED",
-  "buyerProfile": "ANALYTICAL",
+  "vambeDiscoverySource": "CONFERENCE",
   "buyerSentiment": "CONFIDENT",
   "customerPains": ["HIGH_VOLUME_INTERACTIONS", "TEAM_OVERLOAD", "RESPONSE_TIME_DELAYS"],
   "purchaseObjections": ["BUDGET_CONSTRAINTS", "IMPLEMENTATION_EFFORT"],
   "industry": "RETAIL_ECOMMERCE"
 }
-
-================================================================================
 
 Ahora analiza la siguiente transcripción:

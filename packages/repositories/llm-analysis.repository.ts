@@ -5,7 +5,7 @@ import {
   Industry,
   CustomerPain,
   PurchaseObjection,
-  BuyerProfile,
+  VambeDiscoverySource,
   BuyerSentiment,
 } from 'domain-clean/enums'
 import { LlmAnalysis as LlmAnalysisEntity } from 'domain-clean/llm-analysis/llm-analysis.entity'
@@ -20,7 +20,7 @@ export const buildLlmAnalysis = (data: LlmAnalysis): LlmAnalysisEntity => {
     industry: data.industry as Industry,
     customerPains: data.customerPains as CustomerPain[],
     purchaseObjections: data.purchaseObjections as PurchaseObjection[],
-    buyerProfile: data.buyerProfile as BuyerProfile,
+    vambeDiscoverySource: data.vambeDiscoverySource as VambeDiscoverySource,
     buyerSentiment: data.buyerSentiment as BuyerSentiment,
     createdAt: typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
     updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
@@ -43,7 +43,7 @@ export class LlmAnalysisRepository {
     leadScore: number
     purchaseIntention: PurchaseIntention
     technologicalMaturity: TechnologicalMaturity
-    buyerProfile: BuyerProfile
+    vambeDiscoverySource: VambeDiscoverySource
     buyerSentiment: BuyerSentiment
     customerPains: CustomerPain[]
     purchaseObjections: PurchaseObjection[]
@@ -56,7 +56,7 @@ export class LlmAnalysisRepository {
         leadScore: data.leadScore,
         purchaseIntention: data.purchaseIntention,
         technologicalMaturity: data.technologicalMaturity,
-        buyerProfile: data.buyerProfile,
+        vambeDiscoverySource: data.vambeDiscoverySource,
         buyerSentiment: data.buyerSentiment,
         customerPains: data.customerPains,
         purchaseObjections: data.purchaseObjections,

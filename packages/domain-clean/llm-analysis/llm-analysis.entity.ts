@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import {
-  BuyerProfile,
+  VambeDiscoverySource,
   BuyerSentiment,
   CustomerPain,
   Industry,
@@ -16,7 +16,7 @@ export const LlmAnalysisSchema = z.object({
   leadScore: z.number().int(),
   purchaseIntention: z.nativeEnum(PurchaseIntention),
   technologicalMaturity: z.nativeEnum(TechnologicalMaturity),
-  buyerProfile: z.nativeEnum(BuyerProfile),
+  vambeDiscoverySource: z.nativeEnum(VambeDiscoverySource),
   buyerSentiment: z.nativeEnum(BuyerSentiment),
   customerPains: z.array(z.nativeEnum(CustomerPain)),
   purchaseObjections: z.array(z.nativeEnum(PurchaseObjection)),
@@ -53,8 +53,8 @@ export class LlmAnalysis {
     return this._data.technologicalMaturity
   }
 
-  get buyerProfile() {
-    return this._data.buyerProfile
+  get vambeDiscoverySource() {
+    return this._data.vambeDiscoverySource
   }
 
   get buyerSentiment() {

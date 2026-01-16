@@ -1,5 +1,5 @@
 import {
-  BuyerProfile,
+  VambeDiscoverySource,
   BuyerSentiment,
   CustomerPain,
   Industry,
@@ -12,7 +12,7 @@ export interface ParsedOpenAIResponse {
   leadScore: number
   purchaseIntention: PurchaseIntention
   technologicalMaturity: TechnologicalMaturity
-  buyerProfile: BuyerProfile
+  vambeDiscoverySource: VambeDiscoverySource
   buyerSentiment: BuyerSentiment
   customerPains: CustomerPain[]
   purchaseObjections: PurchaseObjection[]
@@ -48,9 +48,9 @@ export const parseOpenAIResponse = (
       technologicalMaturity:
         (parsed.technologicalMaturity?.toUpperCase() as TechnologicalMaturity) ||
         TechnologicalMaturity.UNDEFINED,
-      buyerProfile:
-        (parsed.buyerProfile?.toUpperCase() as BuyerProfile) ||
-        BuyerProfile.UNDEFINED,
+      vambeDiscoverySource:
+        (parsed.vambeDiscoverySource?.toUpperCase() as VambeDiscoverySource) ||
+        VambeDiscoverySource.UNDEFINED,
       buyerSentiment:
         (parsed.buyerSentiment?.toUpperCase() as BuyerSentiment) ||
         BuyerSentiment.UNDEFINED,
