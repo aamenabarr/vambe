@@ -31,9 +31,7 @@ export const validateCsvFormat = (csvContent: string): boolean => {
   }
 
   const headerLine = lines[0].toLowerCase()
-  const hasAllColumns = expectedColumns.every((col) =>
-    headerLine.includes(col.toLowerCase()),
-  )
+  const hasAllColumns = expectedColumns.every((col) => headerLine.includes(col.toLowerCase()))
 
   return hasAllColumns
 }
@@ -43,14 +41,13 @@ export const parseCsv = (csvContent: string): ProcessedCsvData => {
     return {
       rows: [],
       isValid: false,
-      error: 'Formato de CSV inválido. Debe contener las columnas: Nombre, Correo Electronico, Numero de Telefono, Fecha de la Reunion, Vendedor asignado, closed, Transcripcion',
+      error:
+        'Formato de CSV inválido. Debe contener las columnas: Nombre, Correo Electronico, Numero de Telefono, Fecha de la Reunion, Vendedor asignado, closed, Transcripcion',
     }
   }
 
   const lines = csvContent.trim().split('\n')
-  const headers = lines[0]
-    .split(',')
-    .map((h) => h.trim().toLowerCase().replace(/"/g, ''))
+  const headers = lines[0].split(',').map((h) => h.trim().toLowerCase().replace(/"/g, ''))
 
   const rows: CsvRow[] = []
 
@@ -69,24 +66,16 @@ export const parseCsv = (csvContent: string): ProcessedCsvData => {
     const salesAgentIndex = headers.findIndex(
       (h) => h.includes('vendedor') || h.includes('asignado'),
     )
-    const customerNameIndex = headers.findIndex(
-      (h) => h === 'nombre',
-    )
+    const customerNameIndex = headers.findIndex((h) => h === 'nombre')
     const customerEmailIndex = headers.findIndex(
       (h) => h.includes('correo') || h.includes('electronico'),
     )
     const customerPhoneIndex = headers.findIndex(
       (h) => h.includes('telefono') || h.includes('numero'),
     )
-    const meetingDateIndex = headers.findIndex(
-      (h) => h.includes('fecha') || h.includes('reunion'),
-    )
-    const closedIndex = headers.findIndex(
-      (h) => h === 'closed',
-    )
-    const transcriptIndex = headers.findIndex(
-      (h) => h === 'transcripcion',
-    )
+    const meetingDateIndex = headers.findIndex((h) => h.includes('fecha') || h.includes('reunion'))
+    const closedIndex = headers.findIndex((h) => h === 'closed')
+    const transcriptIndex = headers.findIndex((h) => h === 'transcripcion')
 
     if (
       salesAgentIndex === -1 ||

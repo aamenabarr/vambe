@@ -1,13 +1,13 @@
-import { NextPage } from 'next'
+import Dashboard from './_components/dashboard/dashboard'
 
-import { UploadCsvButton } from './_components/upload-csv-button'
-
-const Home: NextPage = () => {
-  return (
-    <div>
-      <UploadCsvButton />
-    </div>    
-  )
+type HomeProps = {
+  searchParams: {
+    seller?: string
+    industry?: string
+    techMaturity?: string
+  }
 }
 
-export default Home
+export default function Home({ searchParams }: HomeProps) {
+  return <Dashboard searchParams={searchParams} />
+}

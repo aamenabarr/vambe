@@ -10,5 +10,5 @@ export const customerPainEnum = pgEnum('customer_pain', [
   'LACK_OF_AUTOMATION',
   'CUSTOMER_EXPERIENCE_DEGRADATION',
   'PEAK_SEASON_OVERLOAD',
-  'OTHER'
+  'OTHER',
 ])

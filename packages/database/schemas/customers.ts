@@ -17,7 +17,7 @@ export const customersTable = pgTable('customers', {
   })
     .defaultNow()
     .notNull()
-    .$onUpdate(() => new Date().toISOString())
+    .$onUpdate(() => new Date().toISOString()),
 })
 
 export type Customer = typeof customersTable.$inferSelect

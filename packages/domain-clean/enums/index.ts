@@ -2,6 +2,8 @@ export * from './buyer-sentiment'
 
 export * from './customer-pain'
 
+export * from './filter-value'
+
 export * from './industry'
 
 export * from './purchase-intention'

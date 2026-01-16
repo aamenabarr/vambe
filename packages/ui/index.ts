@@ -39,3 +39,5 @@ export * from './components/dropdown'
 export * from './components/numeric-input'
 
 export * from './components/alert-dialog'
+
+export * from './components/table'

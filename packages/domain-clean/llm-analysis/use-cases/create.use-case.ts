@@ -26,7 +26,7 @@ export const createLlmAnalysisUseCase = async (csvContent: string) => {
 
   const openAIClient = new OpenAIClient()
 
-  const processRow = async (row: typeof parsedCsv.rows[0]) => {
+  const processRow = async (row: (typeof parsedCsv.rows)[0]) => {
     const salesAgent = await salesAgentRepository.findOrCreate(row.salesAgent)
 
     const customer = await customerRepository.findOrCreate({
@@ -54,9 +54,7 @@ export const createLlmAnalysisUseCase = async (csvContent: string) => {
     return llmAnalysis
   }
 
-  const results = await Promise.all(
-    parsedCsv.rows.map((row) => processRow(row)),
-  )
+  const results = await Promise.all(parsedCsv.rows.map((row) => processRow(row)))
 
   return results
 }

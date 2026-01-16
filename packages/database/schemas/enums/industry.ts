@@ -15,5 +15,5 @@ export const industryEnum = pgEnum('industry', [
   'AGRICULTURE',
   'ENERGY',
   'NGO_SOCIAL',
-  'OTHER'
+  'OTHER',
 ])

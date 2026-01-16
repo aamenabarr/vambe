@@ -15,7 +15,7 @@ export const salesAgentsTable = pgTable('sales_agents', {
   })
     .defaultNow()
     .notNull()
-    .$onUpdate(() => new Date().toISOString())
+    .$onUpdate(() => new Date().toISOString()),
 })
 
 export type SalesAgent = typeof salesAgentsTable.$inferSelect

@@ -27,7 +27,7 @@ export const UploadCsvButton = () => {
         description: 'El archivo debe ser un CSV',
         variant: 'destructive',
       })
-      
+
       return
     }
 
@@ -54,8 +54,7 @@ export const UploadCsvButton = () => {
     } catch (error) {
       toast({
         title: 'Error',
-        description:
-          error instanceof Error ? error.message : 'Error al procesar el archivo',
+        description: error instanceof Error ? error.message : 'Error al procesar el archivo',
         variant: 'destructive',
       })
     } finally {

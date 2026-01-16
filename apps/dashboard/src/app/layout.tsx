@@ -15,15 +15,13 @@ const inter = Inter({ subsets: ['latin'] })
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
-      <html lang="es">
-        <body className={cn(`${inter.className} h-screen`)}>
-          <link rel="icon" href="/favicon.ico" sizes="any" />
-          <Toaster />
-          <div>
-            {children}
-          </div>
-        </body>
-      </html>
+    <html lang="es">
+      <body className={cn(`${inter.className} h-screen`)}>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <Toaster />
+        <div>{children}</div>
+      </body>
+    </html>
   )
 }
 

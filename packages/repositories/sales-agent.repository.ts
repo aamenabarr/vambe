@@ -7,8 +7,10 @@ import { SalesAgent, salesAgentsTable } from '../database/schemas'
 export const buildSalesAgent = (data: SalesAgent): SalesAgentEntity => {
   return new SalesAgentEntity({
     ...data,
-    createdAt: typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
-    updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
+    createdAt:
+      typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
+    updatedAt:
+      typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
   })
 }
 
@@ -55,5 +57,14 @@ export class SalesAgentRepository {
 
   async deleteAll() {
     return await this._context.delete(salesAgentsTable)
+  }
+
+  async findAll() {
+    const results = await this._context
+      .select()
+      .from(salesAgentsTable)
+      .orderBy(salesAgentsTable.name)
+
+    return results.map((r) => buildSalesAgent(r))
   }
 }

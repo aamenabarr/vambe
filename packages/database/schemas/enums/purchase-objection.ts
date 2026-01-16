@@ -10,5 +10,5 @@ export const purchaseObjectionEnum = pgEnum('purchase_objection', [
   'UNCERTAINTY_ABOUT_RESULTS',
   'COMPATIBILITY_ISSUES',
   'IMPLEMENTATION_EFFORT',
-  'OTHER'
+  'OTHER',
 ])

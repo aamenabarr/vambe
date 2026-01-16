@@ -19,9 +19,7 @@ export interface ParsedOpenAIResponse {
   industry: Industry
 }
 
-export const parseOpenAIResponse = (
-  response: string,
-): ParsedOpenAIResponse => {
+export const parseOpenAIResponse = (response: string): ParsedOpenAIResponse => {
   try {
     const jsonMatch = response.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
@@ -35,16 +33,13 @@ export const parseOpenAIResponse = (
       : []
 
     const purchaseObjections = Array.isArray(parsed.purchaseObjections)
-      ? parsed.purchaseObjections.map(
-          (o: string) => o.toUpperCase() as PurchaseObjection,
-        )
+      ? parsed.purchaseObjections.map((o: string) => o.toUpperCase() as PurchaseObjection)
       : []
 
     return {
       leadScore: parseInt(parsed.leadScore, 10) || 0,
       purchaseIntention:
-        (parsed.purchaseIntention?.toUpperCase() as PurchaseIntention) ||
-        PurchaseIntention.LOW,
+        (parsed.purchaseIntention?.toUpperCase() as PurchaseIntention) || PurchaseIntention.LOW,
       technologicalMaturity:
         (parsed.technologicalMaturity?.toUpperCase() as TechnologicalMaturity) ||
         TechnologicalMaturity.UNDEFINED,
@@ -52,16 +47,14 @@ export const parseOpenAIResponse = (
         (parsed.vambeDiscoverySource?.toUpperCase() as VambeDiscoverySource) ||
         VambeDiscoverySource.UNDEFINED,
       buyerSentiment:
-        (parsed.buyerSentiment?.toUpperCase() as BuyerSentiment) ||
-        BuyerSentiment.UNDEFINED,
+        (parsed.buyerSentiment?.toUpperCase() as BuyerSentiment) || BuyerSentiment.UNDEFINED,
       customerPains: customerPains.filter((p: CustomerPain) =>
         Object.values(CustomerPain).includes(p),
       ) as CustomerPain[],
       purchaseObjections: purchaseObjections.filter((o: PurchaseObjection) =>
         Object.values(PurchaseObjection).includes(o),
       ) as PurchaseObjection[],
-      industry:
-        (parsed.industry?.toUpperCase() as Industry) || Industry.UNDEFINED,
+      industry: (parsed.industry?.toUpperCase() as Industry) || Industry.UNDEFINED,
     }
   } catch (error) {
     throw new Error(

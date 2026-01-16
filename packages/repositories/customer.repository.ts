@@ -7,8 +7,10 @@ import { Customer, customersTable } from '../database/schemas'
 export const buildCustomer = (data: Customer): CustomerEntity => {
   return new CustomerEntity({
     ...data,
-    createdAt: typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
-    updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
+    createdAt:
+      typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
+    updatedAt:
+      typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
   })
 }
 

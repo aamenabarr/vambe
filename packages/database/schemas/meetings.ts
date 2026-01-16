@@ -14,8 +14,7 @@ export const meetingsTable = pgTable('meetings', {
   date: timestamp('date', {
     withTimezone: true,
     mode: 'string',
-  })
-    .notNull(),
+  }).notNull(),
   closed: boolean('closed').notNull().default(false),
   transcript: text('transcript').notNull(),
   createdAt: timestamp('created_at', {
@@ -30,7 +29,7 @@ export const meetingsTable = pgTable('meetings', {
   })
     .defaultNow()
     .notNull()
-    .$onUpdate(() => new Date().toISOString())
+    .$onUpdate(() => new Date().toISOString()),
 })
 
 export type Meeting = typeof meetingsTable.$inferSelect

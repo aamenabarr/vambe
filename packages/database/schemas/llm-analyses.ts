@@ -36,7 +36,7 @@ export const llmAnalysesTable = pgTable('llm_analyses', {
   })
     .defaultNow()
     .notNull()
-    .$onUpdate(() => new Date().toISOString())
+    .$onUpdate(() => new Date().toISOString()),
 })
 
 export type LlmAnalysis = typeof llmAnalysesTable.$inferSelect

@@ -29,21 +29,14 @@ export class OpenAIClient {
       ],
     })
 
-    const run = await this.client.beta.threads.runs.createAndPoll(
-      thread.id,
-      {
-        assistant_id: this.assistantId,
-      },
-    )
+    const run = await this.client.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: this.assistantId,
+    })
 
     if (run.status === 'completed') {
-      const messages = await this.client.beta.threads.messages.list(
-        thread.id,
-      )
+      const messages = await this.client.beta.threads.messages.list(thread.id)
 
-      const assistantMessage = messages.data.find(
-        (msg) => msg.role === 'assistant',
-      )
+      const assistantMessage = messages.data.find((msg) => msg.role === 'assistant')
 
       if (assistantMessage) {
         const content = assistantMessage.content
