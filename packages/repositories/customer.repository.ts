@@ -4,8 +4,16 @@ import { eq } from 'drizzle-orm'
 
 import { Customer, customersTable } from '../database/schemas'
 
+const toDateString = (value: string | Date): string => {
+  return typeof value === 'string' ? value : value.toISOString()
+}
+
 export const buildCustomer = (data: Customer): CustomerEntity => {
-  return new CustomerEntity(data)
+  return new CustomerEntity({
+    ...data,
+    createdAt: toDateString(data.createdAt as string | Date),
+    updatedAt: toDateString(data.updatedAt as string | Date),
+  })
 }
 
 export class CustomerRepository {

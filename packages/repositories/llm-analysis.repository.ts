@@ -12,6 +12,10 @@ import { LlmAnalysis as LlmAnalysisEntity } from 'domain-clean/llm-analysis/llm-
 
 import { LlmAnalysis, llmAnalysesTable } from '../database/schemas'
 
+const toDateString = (value: string | Date): string => {
+  return typeof value === 'string' ? value : value.toISOString()
+}
+
 export const buildLlmAnalysis = (data: LlmAnalysis): LlmAnalysisEntity => {
   return new LlmAnalysisEntity({
     ...data,
@@ -22,6 +26,8 @@ export const buildLlmAnalysis = (data: LlmAnalysis): LlmAnalysisEntity => {
     purchaseObjections: data.purchaseObjections as PurchaseObjection[],
     vambeDiscoverySource: data.vambeDiscoverySource as VambeDiscoverySource,
     buyerSentiment: data.buyerSentiment as BuyerSentiment,
+    createdAt: toDateString(data.createdAt as string | Date),
+    updatedAt: toDateString(data.updatedAt as string | Date),
   })
 }
 
