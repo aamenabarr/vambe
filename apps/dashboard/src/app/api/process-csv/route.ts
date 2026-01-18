@@ -21,7 +21,7 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json({
       success: true,
-      message: 'CSV recibido, procesando en background',
+      message: 'CSV procesado',
     })
   } catch (error) {
     const message =

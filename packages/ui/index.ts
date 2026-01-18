@@ -6,6 +6,8 @@ export * from './components/button'
 
 export * from './components/skeleton'
 
+export * from './components/chart-skeleton'
+
 export * from './components/typography'
 
 export * from './components/data-table'
@@ -41,3 +43,5 @@ export * from './components/numeric-input'
 export * from './components/alert-dialog'
 
 export * from './components/table'
+
+export * from './components/chart-skeleton'
