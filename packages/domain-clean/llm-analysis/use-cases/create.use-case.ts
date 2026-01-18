@@ -4,25 +4,23 @@ import { LlmAnalysisRepository } from 'repositories/llm-analysis.repository'
 import { MeetingRepository } from 'repositories/meeting.repository'
 import { SalesAgentRepository } from 'repositories/sales-agent.repository'
 
+import { cleanDatabase } from '../helpers/clean-database.helper'
 import { parseOpenAIResponse } from '../helpers/parse-openai-response.helper'
 import { parseCsv } from '../helpers/process-csv.helper'
 
 export const createLlmAnalysisUseCase = async (csvContent: string) => {
+  const salesAgentRepository = new SalesAgentRepository()
+  const customerRepository = new CustomerRepository()
+  const meetingRepository = new MeetingRepository()
+  const llmAnalysisRepository = new LlmAnalysisRepository()
+
   const parsedCsv = parseCsv(csvContent)
 
   if (!parsedCsv.isValid || !parsedCsv.rows.length) {
     throw new Error(parsedCsv.error || 'CSV inválido o vacío')
   }
 
-  const salesAgentRepository = new SalesAgentRepository()
-  const customerRepository = new CustomerRepository()
-  const meetingRepository = new MeetingRepository()
-  const llmAnalysisRepository = new LlmAnalysisRepository()
-
-  await llmAnalysisRepository.deleteAll()
-  await meetingRepository.deleteAll()
-  await customerRepository.deleteAll()
-  await salesAgentRepository.deleteAll()
+  await cleanDatabase()
 
   const openAIClient = new OpenAIClient()
 
@@ -39,7 +37,7 @@ export const createLlmAnalysisUseCase = async (csvContent: string) => {
       customerId: customer.id,
       salesAgentId: salesAgent.id,
       date: row.meetingDate,
-      closed: row.closed === '1' || row.closed === 'true',
+      closed: row.closed === '1',
       transcript: row.transcript,
     })
 

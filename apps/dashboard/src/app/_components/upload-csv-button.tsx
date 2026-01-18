@@ -6,8 +6,6 @@ import { useRef, useState } from 'react'
 import { Button } from 'ui/components/button'
 import { useToast } from 'ui/components/toast/use-toast'
 
-import { createLlmAnalysisAction } from '../_actions/create-llm-analysis.action'
-
 export const UploadCsvButton = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
@@ -21,23 +19,18 @@ export const UploadCsvButton = () => {
     const file = event.target.files?.[0]
     if (!file) return
 
-    if (!file.name.toLowerCase().endsWith('.csv')) {
-      toast({
-        title: 'Error',
-        description: 'El archivo debe ser un CSV',
-        variant: 'destructive',
-      })
-
-      return
-    }
-
     setLoading(true)
 
     try {
       const formData = new FormData()
       formData.append('file', file)
 
-      const result = await createLlmAnalysisAction(formData)
+      const response = await fetch('/api/process-csv', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
 
       if (result.success) {
         toast({

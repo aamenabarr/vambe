@@ -1,13 +1,5 @@
-import Dashboard from './_components/dashboard/dashboard'
+import { UploadCsvButton } from './_components/upload-csv-button'
 
-type HomeProps = {
-  searchParams: {
-    seller?: string
-    industry?: string
-    techMaturity?: string
-  }
-}
-
-export default function Home({ searchParams }: HomeProps) {
-  return <Dashboard searchParams={searchParams} />
+export default function Home() {
+  return <UploadCsvButton />
 }

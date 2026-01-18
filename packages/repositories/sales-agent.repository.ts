@@ -5,13 +5,7 @@ import { eq } from 'drizzle-orm'
 import { SalesAgent, salesAgentsTable } from '../database/schemas'
 
 export const buildSalesAgent = (data: SalesAgent): SalesAgentEntity => {
-  return new SalesAgentEntity({
-    ...data,
-    createdAt:
-      typeof data.createdAt === 'string' ? data.createdAt : (data.createdAt as Date).toISOString(),
-    updatedAt:
-      typeof data.updatedAt === 'string' ? data.updatedAt : (data.updatedAt as Date).toISOString(),
-  })
+  return new SalesAgentEntity(data)
 }
 
 export class SalesAgentRepository {
@@ -26,12 +20,7 @@ export class SalesAgentRepository {
   }
 
   async create(data: { name: string }) {
-    const [result] = await this._context
-      .insert(salesAgentsTable)
-      .values({
-        name: data.name,
-      })
-      .returning()
+    const [result] = await this._context.insert(salesAgentsTable).values(data).returning()
 
     return buildSalesAgent(result)
   }
