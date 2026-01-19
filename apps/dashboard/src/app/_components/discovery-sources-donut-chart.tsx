@@ -5,6 +5,9 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { CHART_COLORS } from '../_helpers/colors'
+import { translateDiscoverySource } from '../_helpers/translations'
+
 interface DiscoverySourcesData {
   source: string
   total: number
@@ -16,17 +19,6 @@ interface DiscoverySourcesDonutChartProps {
   data: DiscoverySourcesData[]
   loading?: boolean
 }
-
-const COLORS = [
-  '#3b82f6',
-  '#10b981',
-  '#f59e0b',
-  '#ef4444',
-  '#8b5cf6',
-  '#ec4899',
-  '#06b6d4',
-  '#84cc16',
-]
 
 export function DiscoverySourcesDonutChart({ data, loading }: DiscoverySourcesDonutChartProps) {
   if (loading) {
@@ -48,17 +40,20 @@ export function DiscoverySourcesDonutChart({ data, loading }: DiscoverySourcesDo
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
-              data={data}
+              data={data.map((item) => ({
+                ...item,
+                source: translateDiscoverySource(item.source),
+              }))}
               cx="50%"
               cy="50%"
               labelLine={false}
               label={(entry: DiscoverySourcesData) => `${entry.source}: ${entry.total}`}
               outerRadius={80}
-              fill="#8884d8"
+              fill={CHART_COLORS[0]}
               dataKey="total"
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />

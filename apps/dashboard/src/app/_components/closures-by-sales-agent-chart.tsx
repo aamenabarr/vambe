@@ -5,6 +5,8 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+
 interface ClosuresBySalesAgentData {
   salesAgentName: string
   closed: number
@@ -40,7 +42,7 @@ export function ClosuresBySalesAgentChart({ data, loading }: ClosuresBySalesAgen
             <XAxis dataKey="salesAgentName" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="closed" fill="#3b82f6" name="Cierres" />
+            <Bar dataKey="closed" fill={VAMBE_COLORS.primary} name="Cierres" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

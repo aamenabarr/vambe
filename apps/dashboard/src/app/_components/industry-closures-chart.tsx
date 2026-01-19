@@ -5,6 +5,9 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+import { translateIndustry } from '../_helpers/translations'
+
 interface IndustryClosuresData {
   industry: string
   total: number
@@ -35,11 +38,16 @@ export function IndustryClosuresChart({ data, loading }: IndustryClosuresChartPr
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
+          <BarChart
+            data={data.map((item) => ({
+              ...item,
+              industry: translateIndustry(item.industry),
+            }))}
+          >
             <XAxis dataKey="industry" angle={-45} textAnchor="end" height={100} />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="closeRate" fill="#3b82f6" name="Tasa de Cierre %" />
+            <Bar dataKey="closeRate" fill={VAMBE_COLORS.primary} name="Tasa de Cierre %" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

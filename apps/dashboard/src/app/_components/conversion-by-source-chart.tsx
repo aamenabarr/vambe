@@ -5,6 +5,9 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+import { translateDiscoverySource } from '../_helpers/translations'
+
 interface ConversionBySourceData {
   source: string
   total: number
@@ -37,11 +40,16 @@ export function ConversionBySourceChart({ data, loading }: ConversionBySourceCha
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={sortedData}>
+          <BarChart
+            data={sortedData.map((item) => ({
+              ...item,
+              source: translateDiscoverySource(item.source),
+            }))}
+          >
             <XAxis dataKey="source" angle={-45} textAnchor="end" height={100} />
             <YAxis domain={[0, 100]} />
             <Tooltip />
-            <Bar dataKey="closeRate" fill="#8b5cf6" name="Tasa de Conversión %" />
+            <Bar dataKey="closeRate" fill={VAMBE_COLORS.purple} name="Tasa de Conversión %" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

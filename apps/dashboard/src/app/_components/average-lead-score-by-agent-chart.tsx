@@ -5,6 +5,8 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+
 interface AverageLeadScoreByAgentData {
   salesAgentName: string
   averageLeadScore: number
@@ -40,7 +42,7 @@ export function AverageLeadScoreByAgentChart({
             <XAxis dataKey="salesAgentName" />
             <YAxis domain={[0, 100]} />
             <Tooltip />
-            <Bar dataKey="averageLeadScore" fill="#10b981" name="Score Promedio" />
+            <Bar dataKey="averageLeadScore" fill={VAMBE_COLORS.secondary} name="Score Promedio" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

@@ -5,6 +5,8 @@ import { ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } fro
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+
 interface LeadScoreVsCloseRateData {
   scoreRange: string
   total: number
@@ -78,7 +80,7 @@ export function LeadScoreVsCloseRateChart({
               }}
             />
 
-            <Scatter dataKey="closeRate" fill="#3b82f6" />
+            <Scatter dataKey="closeRate" fill={VAMBE_COLORS.primary} />
           </ScatterChart>
         </ResponsiveContainer>
       </CardContent>

@@ -5,6 +5,9 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+import { translateObjection } from '../_helpers/translations'
+
 interface ObjectionsFrequencyData {
   objection: string
   frequency: number
@@ -35,11 +38,17 @@ export function ObjectionsFrequencyChart({ data, loading }: ObjectionsFrequencyC
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={sortedData} layout="vertical">
+          <BarChart
+            data={sortedData.map((item) => ({
+              ...item,
+              objection: translateObjection(item.objection),
+            }))}
+            layout="vertical"
+          >
             <XAxis type="number" />
             <YAxis dataKey="objection" type="category" width={150} />
             <Tooltip />
-            <Bar dataKey="frequency" fill="#f59e0b" name="Frecuencia" />
+            <Bar dataKey="frequency" fill={VAMBE_COLORS.accent} name="Frecuencia" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

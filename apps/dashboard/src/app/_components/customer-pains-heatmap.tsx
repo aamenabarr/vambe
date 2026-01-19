@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 import { cn } from 'ui/lib/utils'
 
+import { translateCustomerPain, translateIndustry } from '../_helpers/translations'
+
 interface PainFrequency {
   pain: string
   frequency: number
@@ -67,7 +69,7 @@ export function CustomerPainsHeatmap({ data, loading }: CustomerPainsHeatmapProp
                 <th className="border p-2 text-left text-sm font-medium">Industria</th>
                 {painArray.map((pain) => (
                   <th key={pain} className="border p-2 text-center text-xs font-medium">
-                    {pain}
+                    {translateCustomerPain(pain)}
                   </th>
                 ))}
               </tr>
@@ -78,7 +80,7 @@ export function CustomerPainsHeatmap({ data, loading }: CustomerPainsHeatmapProp
 
                 return (
                   <tr key={item.industry}>
-                    <td className="border p-2 text-sm font-medium">{item.industry}</td>
+                    <td className="border p-2 text-sm font-medium">{translateIndustry(item.industry)}</td>
                     {painArray.map((pain) => {
                       const frequency = painMap.get(pain) || 0
 

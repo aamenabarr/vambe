@@ -5,6 +5,9 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+import { translateObjection } from '../_helpers/translations'
+
 interface ObjectionsImpactData {
   objection: string
   frequency: number
@@ -38,11 +41,17 @@ export function ObjectionsImpactChart({ data, loading }: ObjectionsImpactChartPr
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={sortedData} layout="vertical">
+          <BarChart
+            data={sortedData.map((item) => ({
+              ...item,
+              objection: translateObjection(item.objection),
+            }))}
+            layout="vertical"
+          >
             <XAxis type="number" />
             <YAxis dataKey="objection" type="category" width={150} />
             <Tooltip />
-            <Bar dataKey="impact" fill="#ef4444" name="Impacto en %" />
+            <Bar dataKey="impact" fill={VAMBE_COLORS.danger} name="Impacto en %" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

@@ -5,6 +5,8 @@ import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'rec
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+
 interface ClosuresOverTimeData {
   date: string
   count: number
@@ -37,7 +39,7 @@ export function ClosuresOverTimeChart({ data, loading }: ClosuresOverTimeChartPr
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} />
+            <Line type="monotone" dataKey="count" stroke={VAMBE_COLORS.secondary} strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>

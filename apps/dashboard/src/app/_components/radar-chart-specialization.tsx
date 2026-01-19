@@ -12,6 +12,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { CHART_COLORS } from '../_helpers/colors'
+import { translateBuyerSentiment, translateTechMaturity } from '../_helpers/translations'
+
 interface SpecializationData {
   salesAgentName: string
   data: Array<{
@@ -51,7 +54,10 @@ export function RadarChartSpecialization({
       : (data[0]?.data.map((d) => d.tech).filter((k): k is string => Boolean(k)) || [])
 
   const chartData = keys.map((key) => {
-    const item: Record<string, string | number> = { name: key }
+    const translatedKey =
+      type === 'buyerSentiment' ? translateBuyerSentiment(key) : translateTechMaturity(key)
+    const item: Record<string, string | number> = { name: translatedKey }
+
     agents.forEach((agent) => {
       const agentData = data.find((d) => d.salesAgentName === agent)
       const value = agentData?.data.find(
@@ -64,7 +70,7 @@ export function RadarChartSpecialization({
     return item
   })
 
-  const colors = ['#3b82f6', '#10b981', '#f59e0b']
+  const colors = CHART_COLORS
 
   return (
     <Card>

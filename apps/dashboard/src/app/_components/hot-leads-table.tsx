@@ -3,6 +3,8 @@
 import { Card, CardHeader, CardTitle } from 'ui/components/card'
 import { Skeleton } from 'ui/components/skeleton'
 
+import { translateBuyerSentiment, translateIndustry } from '../_helpers/translations'
+
 interface HotLead {
   id: string
   customerName: string
@@ -80,8 +82,8 @@ export function HotLeadsTable({ leads, loading }: HotLeadsTableProps) {
                       {lead.status}
                     </span>
                   </td>
-                  <td className="p-2 text-sm">{lead.buyerSentiment}</td>
-                  <td className="p-2 text-sm">{lead.industry}</td>
+                        <td className="p-2 text-sm">{translateBuyerSentiment(lead.buyerSentiment)}</td>
+                        <td className="p-2 text-sm">{translateIndustry(lead.industry)}</td>
                 </tr>
               ))}
             </tbody>

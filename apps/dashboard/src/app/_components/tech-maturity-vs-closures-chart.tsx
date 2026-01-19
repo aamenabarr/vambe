@@ -5,6 +5,9 @@ import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { VAMBE_COLORS } from '../_helpers/colors'
+import { translateTechMaturity } from '../_helpers/translations'
+
 interface TechMaturityVsClosuresData {
   tech: string
   closed: number
@@ -38,12 +41,17 @@ export function TechMaturityVsClosuresChart({
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
+          <BarChart
+            data={data.map((item) => ({
+              ...item,
+              tech: translateTechMaturity(item.tech),
+            }))}
+          >
             <XAxis dataKey="tech" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="closed" stackId="a" fill="#10b981" name="Cerrados" />
-            <Bar dataKey="notClosed" stackId="a" fill="#ef4444" name="No Cerrados" />
+            <Bar dataKey="closed" stackId="a" fill={VAMBE_COLORS.secondary} name="Cerrados" />
+            <Bar dataKey="notClosed" stackId="a" fill={VAMBE_COLORS.danger} name="No Cerrados" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

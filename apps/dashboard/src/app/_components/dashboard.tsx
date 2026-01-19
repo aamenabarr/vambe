@@ -1,6 +1,7 @@
 'use client'
 
 import { Upload } from 'lucide-react'
+import Image from 'next/image'
 
 import { Button } from 'ui/components/button'
 
@@ -197,16 +198,18 @@ export function Dashboard({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b bg-white p-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold">Vambe Dashboard</span>
-        </div>
-        <Button onClick={handleUploadClick} icon={<Upload className="size-4" />}>
+      <header className="flex items-center justify-between bg-[#0033CC] p-4">
+        <Image src="/logo.png" alt="Vambe" width={120} height={40} />
+        <Button
+          onClick={handleUploadClick}
+          icon={<Upload className="size-4" />}
+          className="bg-white text-[#0033CC] hover:bg-gray-100"
+        >
           Subir CSV
         </Button>
       </header>
 
-      <main className="flex-1 bg-gray-50 p-6">
+      <main className="flex-1 bg-[#001F99] p-6">
         <MetricsCards {...metricsCards} loading={loading} />
 
         <div className="space-y-6">

@@ -5,6 +5,9 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
+import { CHART_COLORS } from '../_helpers/colors'
+import { translatePurchaseIntention } from '../_helpers/translations'
+
 interface PurchaseIntentionDistributionData {
   intention: string
   total: number
@@ -46,7 +49,10 @@ export function PurchaseIntentionDistributionChart({
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
-              data={data}
+              data={data.map((item) => ({
+                ...item,
+                intention: translatePurchaseIntention(item.intention),
+              }))}
               cx="50%"
               cy="50%"
               labelLine={false}
@@ -54,13 +60,13 @@ export function PurchaseIntentionDistributionChart({
                 `${entry.intention}: ${entry.total} (${entry.closeRate}%)`
               }
               outerRadius={80}
-              fill="#8884d8"
+              fill={CHART_COLORS[0]}
               dataKey="total"
             >
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={INTENTION_COLORS[entry.intention as keyof typeof INTENTION_COLORS] || '#8884d8'}
+                  fill={INTENTION_COLORS[entry.intention as keyof typeof INTENTION_COLORS] || CHART_COLORS[0]}
                 />
               ))}
             </Pie>
