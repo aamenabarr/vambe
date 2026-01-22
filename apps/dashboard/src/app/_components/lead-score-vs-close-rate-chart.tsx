@@ -1,6 +1,6 @@
 'use client'
 
-import { ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { ResponsiveContainer, Scatter, ScatterChart, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
 
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
 import { ChartSkeleton } from 'ui/components/chart-skeleton'
@@ -56,15 +56,9 @@ export function LeadScoreVsCloseRateChart({
             <YAxis dataKey="closeRate" name="Tasa de Cierre %" />
             <Tooltip
               cursor={{ strokeDasharray: '3 3' }}
-              content={({
-                active,
-                payload,
-              }: {
-                active?: boolean
-                payload?: Array<{ payload: { range: string; score: number; closeRate: number; total: number } }>
-              }) => {
-                if (active && payload && payload[0]) {
-                  const data = payload[0].payload
+              content={(props: TooltipProps<number, string>) => {
+                if (props.active && props.payload && props.payload[0]) {
+                  const data = props.payload[0].payload as { range: string; score: number; closeRate: number; total: number }
 
                   return (
                     <div className="rounded-lg border bg-white p-2 shadow-md">
