@@ -100,8 +100,8 @@ export function Dashboard({
   customerPainsByIndustry,
 }: DashboardProps) {
   return (
-    <div className="min-h-screen bg-[#0A1121] flex flex-col">
-      <header className="sticky top-0 z-50 flex items-center justify-between bg-[#0A1121]/80 backdrop-blur-xl border-b border-[#1E3A8A]/40 p-4">
+    <div className="flex min-h-screen flex-col bg-[#0A1121]">
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[#1E3A8A]/40 bg-[#0A1121]/80 p-4 backdrop-blur-xl">
         <Image src="/logo.png" alt="Vambe" width={120} height={40} />
         <UploadCsvButton />
       </header>
