@@ -1,7 +1,6 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
-import { ChartSkeleton } from 'ui/components/chart-skeleton'
 import { cn } from 'ui/lib/utils'
 
 import { translateCustomerPain, translateIndustry } from '../_helpers/translations'

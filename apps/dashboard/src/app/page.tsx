@@ -8,7 +8,6 @@ export default async function Home() {
   try {
     data = await getAllMetricsUseCase()
   } catch (error) {
-    console.error('Error obteniendo métricas:', error)
     data = {
       metricsCards: {
         averageLeadScore: 0,

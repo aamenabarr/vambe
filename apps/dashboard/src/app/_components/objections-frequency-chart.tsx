@@ -3,7 +3,6 @@
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
-import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
 import { VAMBE_COLORS } from '../_helpers/colors'
 import { translateObjection } from '../_helpers/translations'

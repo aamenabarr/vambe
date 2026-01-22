@@ -3,7 +3,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Card, CardContent, CardHeader, CardTitle } from 'ui/components/card'
-import { ChartSkeleton } from 'ui/components/chart-skeleton'
 
 import { CHART_COLORS } from '../_helpers/colors'
 import { translateDiscoverySource } from '../_helpers/translations'

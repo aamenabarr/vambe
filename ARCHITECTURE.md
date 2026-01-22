@@ -39,7 +39,6 @@ Fuente de origen del lead:
 - `CONFIDENT`: Entusiasta y positivo
 - `NEUTRAL`: Profesional y reservado
 - `SKEPTICAL`: Dudas y reservas
-- `FRUSTRATED`: Insatisfacción con situación actual
 
 #### 6. **Customer Pains** (Array)
 Problemas identificados del cliente:
@@ -56,9 +55,8 @@ Sector del cliente (20+ categorías desde `RETAIL_ECOMMERCE` hasta `OTHER`)
 
 Estas dimensiones fueron seleccionadas porque:
 1. **Cubren el ciclo completo de ventas**: Desde el descubrimiento hasta el cierre
-2. **Son accionables**: Cada métrica puede influir en estrategias de seguimiento
-3. **Permiten segmentación**: Facilita identificar patrones y oportunidades
-4. **Son medibles**: Pueden ser extraídas consistentemente de transcripciones
+2. **Permiten segmentación**: Facilita identificar patrones y oportunidades
+3. **Son medibles**: Pueden ser extraídas consistentemente de transcripciones
 
 ## Arquitectura del Sistema
 
@@ -84,7 +82,6 @@ Estas dimensiones fueron seleccionadas porque:
   - Escalado automático
   - Sin gestión de infraestructura
   - Conexiones serverless optimizadas para Vercel
-  - Backups automáticos
 
 #### **Drizzle ORM**
 **Decisión**: Drizzle en lugar de Prisma o TypeORM
@@ -140,16 +137,6 @@ Cada métrica tiene su propio use case:
 - `getClosuresOverTimeUseCase`: Cierres por mes
 - `getBuyerSentimentVsClosuresUseCase`: Análisis por sentimiento
 - `getObjectionsAnalysisUseCase`: Frecuencia e impacto de objeciones
-- Y más...
-
-**Ventajas**:
-- **Separación de responsabilidades**: Cada use case tiene un propósito claro
-- **Reutilización**: Fácil de usar en diferentes contextos
-- **Testabilidad**: Cada use case puede testearse independientemente
-- **Mantenibilidad**: Cambios en una métrica no afectan otras
-
-Las métricas se calculan principalmente en la base de datos usando:
-- `GROUP BY` para agrupaciones
 
 ### Packages y Modularidad
 
@@ -161,20 +148,12 @@ Las métricas se calculan principalmente en la base de datos usando:
 4. **openai-client**: Cliente para API de OpenAI
 5. **ui**: Componentes React reutilizables
 6. **translations**: Traducciones de enums al español
-7. **tsconfig**: Configuraciones TypeScript compartidas
-
-**Beneficios**:
-- **Reutilización**: Packages pueden usarse en otros proyectos
-- **Testing**: Cada package puede testearse independientemente
-- **Claridad**: Dependencias explícitas entre módulos
-- **Escalabilidad**: Fácil agregar nuevos packages
 
 ### Despliegue en Vercel con Neon DB
 
 #### **Vercel**
 **Razón**:
 - **Serverless Functions**: Escala automáticamente
-- **Edge Network**: CDN global para assets estáticos
 - **Integración con Git**: Deploy automático en push
 
 #### **Neon DB Serverless**
