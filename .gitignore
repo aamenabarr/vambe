@@ -3,3 +3,6 @@ node_modules
 .turbo
 .next/
 *.csv
+*.tsbuildinfo
+# Exclude compiled JS files in src directories (build artifacts)
+apps/**/src/**/*.js
