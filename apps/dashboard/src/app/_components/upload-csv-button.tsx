@@ -72,6 +72,7 @@ export const UploadCsvButton = () => {
         loading={loading}
         icon={<Upload className="size-4" />}
         variant="primary"
+        disabled={true}
       >
         Subir CSV
       </Button>
