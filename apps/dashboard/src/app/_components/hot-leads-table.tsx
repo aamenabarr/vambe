@@ -1,7 +1,6 @@
 'use client'
 
 import { Card, CardHeader, CardTitle } from 'ui/components/card'
-import { Skeleton } from 'ui/components/skeleton'
 
 import { translateBuyerSentiment, translateIndustry } from '../_helpers/translations'
 
