@@ -1,5 +1,5 @@
-import dynamic from 'next/dynamic'
 import { getAllMetricsUseCase } from 'domain-clean/llm-analysis/use-cases/get-all-metrics.use-case'
+import dynamic from 'next/dynamic'
 
 // Deshabilita SSR para el Dashboard completo
 const Dashboard = dynamic(
@@ -7,10 +7,10 @@ const Dashboard = dynamic(
   { 
     ssr: false,
     loading: () => (
-      <div className="min-h-screen bg-[#0A1121] flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-[#0A1121]">
         <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-white border-r-transparent mb-4"></div>
-          <p className="text-white text-lg">Cargando dashboard...</p>
+          <div className="mb-4 inline-block size-8 animate-spin rounded-full border-4 border-solid border-white border-r-transparent"></div>
+          <p className="text-lg text-white">Cargando dashboard...</p>
         </div>
       </div>
     )
