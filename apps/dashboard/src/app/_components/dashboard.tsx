@@ -197,8 +197,8 @@ export function Dashboard({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between bg-[#0033CC] p-4">
+    <div className="min-h-screen bg-[#0A1121] flex flex-col">
+      <header className="sticky top-0 z-50 flex items-center justify-between bg-[#0A1121]/80 backdrop-blur-xl border-b border-[#1E3A8A]/40 p-4">
         <Image src="/logo.png" alt="Vambe" width={120} height={40} />
         <Button
           onClick={handleUploadClick}
@@ -209,7 +209,7 @@ export function Dashboard({
         </Button>
       </header>
 
-      <main className="flex-1 bg-[#001F99] p-6">
+      <main className="flex-1 p-6">
         <MetricsCards {...metricsCards} loading={loading} />
 
         <div className="space-y-6">
