@@ -15,20 +15,9 @@ interface ObjectionsFrequencyData {
 
 interface ObjectionsFrequencyChartProps {
   data: ObjectionsFrequencyData[]
-  loading?: boolean
 }
 
-export function ObjectionsFrequencyChart({ data, loading }: ObjectionsFrequencyChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function ObjectionsFrequencyChart({ data }: ObjectionsFrequencyChartProps) {
   const sortedData = [...data].sort((a, b) => b.frequency - a.frequency).slice(0, 10)
 
   return (

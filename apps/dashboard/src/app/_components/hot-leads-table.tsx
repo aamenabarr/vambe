@@ -19,27 +19,9 @@ interface HotLead {
 
 interface HotLeadsTableProps {
   leads: HotLead[]
-  loading?: boolean
 }
 
-export function HotLeadsTable({ leads, loading }: HotLeadsTableProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-        </CardHeader>
-        <div className="p-6">
-          <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Skeleton key={i} className="h-16 w-full" />
-            ))}
-          </div>
-        </div>
-      </Card>
-    )
-  }
-
+export function HotLeadsTable({ leads }: HotLeadsTableProps) {
   return (
     <Card>
       <CardHeader>

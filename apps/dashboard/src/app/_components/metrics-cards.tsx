@@ -1,7 +1,6 @@
 'use client'
 
 import { Card, CardHeader, CardTitle } from 'ui/components/card'
-import { Skeleton } from 'ui/components/skeleton'
 
 interface MetricsCardsProps {
   averageLeadScore: number
@@ -9,7 +8,6 @@ interface MetricsCardsProps {
   totalLeads: number
   closeRate: number
   hotLeadsCloseRate: number
-  loading?: boolean
 }
 
 export function MetricsCards({
@@ -18,23 +16,7 @@ export function MetricsCards({
   totalLeads,
   closeRate,
   hotLeadsCloseRate,
-  loading,
 }: MetricsCardsProps) {
-  if (loading) {
-    return (
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        {[1, 2, 3, 4].map((i) => (
-          <Card key={i}>
-            <CardHeader>
-              <Skeleton className="mb-2 h-4 w-32" />
-              <Skeleton className="h-8 w-16" />
-            </CardHeader>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
       <Card className="bg-[#0033CC] text-white">

@@ -17,20 +17,9 @@ interface IndustryClosuresData {
 
 interface IndustryClosuresChartProps {
   data: IndustryClosuresData[]
-  loading?: boolean
 }
 
-export function IndustryClosuresChart({ data, loading }: IndustryClosuresChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function IndustryClosuresChart({ data }: IndustryClosuresChartProps) {
   return (
     <Card>
       <CardHeader>

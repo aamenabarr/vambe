@@ -18,7 +18,6 @@ interface CustomerPainsByIndustryData {
 
 interface CustomerPainsHeatmapProps {
   data: CustomerPainsByIndustryData[]
-  loading?: boolean
 }
 
 function getIntensityColor(frequency: number, maxFrequency: number) {
@@ -32,17 +31,7 @@ function getIntensityColor(frequency: number, maxFrequency: number) {
   return 'bg-yellow-200'
 }
 
-export function CustomerPainsHeatmap({ data, loading }: CustomerPainsHeatmapProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function CustomerPainsHeatmap({ data }: CustomerPainsHeatmapProps) {
   const allPains = new Set<string>()
   data.forEach((item) => {
     item.pains.forEach((pain) => {

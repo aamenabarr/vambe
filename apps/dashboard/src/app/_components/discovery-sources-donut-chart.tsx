@@ -17,20 +17,9 @@ interface DiscoverySourcesData {
 
 interface DiscoverySourcesDonutChartProps {
   data: DiscoverySourcesData[]
-  loading?: boolean
 }
 
-export function DiscoverySourcesDonutChart({ data, loading }: DiscoverySourcesDonutChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function DiscoverySourcesDonutChart({ data }: DiscoverySourcesDonutChartProps) {
   return (
     <Card>
       <CardHeader>

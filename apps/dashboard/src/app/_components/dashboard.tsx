@@ -1,9 +1,4 @@
-'use client'
-
-import { Upload } from 'lucide-react'
 import Image from 'next/image'
-
-import { Button } from 'ui/components/button'
 
 import { BuyerSentimentVsClosuresChart } from './buyer-sentiment-vs-closures-chart'
 import { ClosuresOverTimeChart } from './closures-over-time-chart'
@@ -15,6 +10,7 @@ import { IndustryClosuresChart } from './industry-closures-chart'
 import { MetricsCards } from './metrics-cards'
 import { ObjectionsFrequencyChart } from './objections-frequency-chart'
 import { TechMaturityVsClosuresChart } from './tech-maturity-vs-closures-chart'
+import { UploadCsvButton } from './upload-csv-button'
 
 interface MetricsCardsData {
   averageLeadScore: number
@@ -89,7 +85,6 @@ interface DashboardProps {
   conversionBySource: DiscoverySourcesData[]
   techMaturityVsClosures: TechMaturityVsClosuresData[]
   customerPainsByIndustry: CustomerPainsByIndustryData[]
-  loading?: boolean
 }
 
 export function Dashboard({
@@ -103,78 +98,37 @@ export function Dashboard({
   conversionBySource,
   techMaturityVsClosures,
   customerPainsByIndustry,
-  loading,
 }: DashboardProps) {
-  const handleUploadClick = () => {
-    const input = document.createElement('input')
-    input.type = 'file'
-    input.accept = '.csv'
-    input.onchange = async (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0]
-      if (!file) return
-
-      const formData = new FormData()
-      formData.append('file', file)
-
-      try {
-        const response = await fetch('/api/process-csv', {
-          method: 'POST',
-          body: formData,
-        })
-
-        if (response.ok) {
-          window.location.reload()
-        }
-      } catch (error) {
-        // Error uploading CSV
-      }
-    }
-    input.click()
-  }
-
   return (
     <div className="min-h-screen bg-[#0A1121] flex flex-col">
       <header className="sticky top-0 z-50 flex items-center justify-between bg-[#0A1121]/80 backdrop-blur-xl border-b border-[#1E3A8A]/40 p-4">
         <Image src="/logo.png" alt="Vambe" width={120} height={40} />
-        <Button
-          onClick={handleUploadClick}
-          icon={<Upload className="size-4" />}
-          className="bg-white text-[#0033CC] hover:bg-gray-100"
-          disabled={true}
-        >
-          Subir CSV
-        </Button>
+        <UploadCsvButton />
       </header>
 
       <main className="flex-1 p-6">
-        <MetricsCards {...metricsCards} loading={loading} />
+        <MetricsCards {...metricsCards} />
 
         <div className="space-y-6">
-          <HotLeadsTable leads={hotLeads || []} loading={loading} />
+          <HotLeadsTable leads={hotLeads || []} />
 
-          <ClosuresOverTimeChart data={closuresOverTime || []} loading={loading} />
-
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <BuyerSentimentVsClosuresChart
-              data={buyerSentimentVsClosures || []}
-              loading={loading}
-            />
-            <ObjectionsFrequencyChart
-              data={objectionsAnalysis?.frequency || []}
-              loading={loading}
-            />
-          </div>
-
-          <IndustryClosuresChart data={industryClosures || []} loading={loading} />
+          <ClosuresOverTimeChart data={closuresOverTime || []} />
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <DiscoverySourcesDonutChart data={discoverySources || []} loading={loading} />
-            <ConversionBySourceChart data={conversionBySource || []} loading={loading} />
+            <BuyerSentimentVsClosuresChart data={buyerSentimentVsClosures || []} />
+            <ObjectionsFrequencyChart data={objectionsAnalysis?.frequency || []} />
           </div>
 
-          <TechMaturityVsClosuresChart data={techMaturityVsClosures || []} loading={loading} />
+          <IndustryClosuresChart data={industryClosures || []} />
 
-          <CustomerPainsHeatmap data={customerPainsByIndustry || []} loading={loading} />
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <DiscoverySourcesDonutChart data={discoverySources || []} />
+            <ConversionBySourceChart data={conversionBySource || []} />
+          </div>
+
+          <TechMaturityVsClosuresChart data={techMaturityVsClosures || []} />
+
+          <CustomerPainsHeatmap data={customerPainsByIndustry || []} />
         </div>
       </main>
     </div>

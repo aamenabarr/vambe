@@ -14,20 +14,9 @@ interface ClosuresOverTimeData {
 
 interface ClosuresOverTimeChartProps {
   data: ClosuresOverTimeData[]
-  loading?: boolean
 }
 
-export function ClosuresOverTimeChart({ data, loading }: ClosuresOverTimeChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function ClosuresOverTimeChart({ data }: ClosuresOverTimeChartProps) {
   return (
     <Card>
       <CardHeader>

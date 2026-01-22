@@ -17,20 +17,9 @@ interface ConversionBySourceData {
 
 interface ConversionBySourceChartProps {
   data: ConversionBySourceData[]
-  loading?: boolean
 }
 
-export function ConversionBySourceChart({ data, loading }: ConversionBySourceChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function ConversionBySourceChart({ data }: ConversionBySourceChartProps) {
   const sortedData = [...data].sort((a, b) => b.closeRate - a.closeRate)
 
   return (

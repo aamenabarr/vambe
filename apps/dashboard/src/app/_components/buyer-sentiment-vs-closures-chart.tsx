@@ -17,23 +17,9 @@ interface BuyerSentimentVsClosuresData {
 
 interface BuyerSentimentVsClosuresChartProps {
   data: BuyerSentimentVsClosuresData[]
-  loading?: boolean
 }
 
-export function BuyerSentimentVsClosuresChart({
-  data,
-  loading,
-}: BuyerSentimentVsClosuresChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function BuyerSentimentVsClosuresChart({ data }: BuyerSentimentVsClosuresChartProps) {
   return (
     <Card>
       <CardHeader>

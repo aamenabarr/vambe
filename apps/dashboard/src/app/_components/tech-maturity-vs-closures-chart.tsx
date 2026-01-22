@@ -17,23 +17,9 @@ interface TechMaturityVsClosuresData {
 
 interface TechMaturityVsClosuresChartProps {
   data: TechMaturityVsClosuresData[]
-  loading?: boolean
 }
 
-export function TechMaturityVsClosuresChart({
-  data,
-  loading,
-}: TechMaturityVsClosuresChartProps) {
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <ChartSkeleton />
-        </CardHeader>
-      </Card>
-    )
-  }
-
+export function TechMaturityVsClosuresChart({ data }: TechMaturityVsClosuresChartProps) {
   return (
     <Card>
       <CardHeader>
