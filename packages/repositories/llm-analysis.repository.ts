@@ -86,7 +86,7 @@ export class LlmAnalysisRepository {
     return Number(result?.average || 0)
   }
 
-  async getHotLeadsCount(threshold = 61) {
+  async getHotLeadsCount(threshold = 80) {
     const [result] = await this._context
       .select({ count: count() })
       .from(llmAnalysesTable)
@@ -113,7 +113,7 @@ export class LlmAnalysisRepository {
     return result?.count || 0
   }
 
-  async getHotLeadsClosedCount(threshold = 61) {
+  async getHotLeadsClosedCount(threshold = 80) {
     const [result] = await this._context
       .select({ count: count() })
       .from(llmAnalysesTable)

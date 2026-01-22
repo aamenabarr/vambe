@@ -43,6 +43,12 @@ export class MeetingRepository {
     return await this._context.delete(meetingsTable)
   }
 
+  async findAll() {
+    const results = await this._context.select().from(meetingsTable)
+
+    return results.map((m) => buildMeeting(m))
+  }
+
   async findAllWithRelations() {
     const results = await this._context.query.meetingsTable.findMany({
       with: {

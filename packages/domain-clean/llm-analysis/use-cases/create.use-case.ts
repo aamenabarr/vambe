@@ -24,35 +24,53 @@ export const createLlmAnalysisUseCase = async (csvContent: string) => {
 
   const openAIClient = new OpenAIClient()
 
-  const processRow = async (row: (typeof parsedCsv.rows)[0]) => {
-    const salesAgent = await salesAgentRepository.findOrCreate(row.salesAgent)
+  const processRow = async (row: (typeof parsedCsv.rows)[0], index: number) => {
+    try {
+      const salesAgent = await salesAgentRepository.findOrCreate(row.salesAgent)
 
-    const customer = await customerRepository.findOrCreate({
-      name: row.customerName,
-      email: row.customerEmail,
-      phone: row.customerPhone,
-    })
+      const customer = await customerRepository.findOrCreate({
+        name: row.customerName,
+        email: row.customerEmail,
+        phone: row.customerPhone,
+      })
 
-    const meeting = await meetingRepository.create({
-      customerId: customer.id,
-      salesAgentId: salesAgent.id,
-      date: row.meetingDate,
-      closed: row.closed === '1',
-      transcript: row.transcript,
-    })
+      const meeting = await meetingRepository.create({
+        customerId: customer.id,
+        salesAgentId: salesAgent.id,
+        date: row.meetingDate,
+        closed: row.closed === '1',
+        transcript: row.transcript,
+      })
 
-    const openAIResponse = await openAIClient.sendMessage(row.transcript)
-    const parsedResponse = parseOpenAIResponse(openAIResponse.content)
+      const openAIResponse = await openAIClient.sendMessage(row.transcript)
+      const parsedResponse = parseOpenAIResponse(openAIResponse.content)
 
-    const llmAnalysis = await llmAnalysisRepository.create({
-      meetingId: meeting.id,
-      ...parsedResponse,
-    })
+      const llmAnalysis = await llmAnalysisRepository.create({
+        meetingId: meeting.id,
+        ...parsedResponse,
+      })
 
-    return llmAnalysis
+      return llmAnalysis
+    } catch (error) {
+      console.error(`Error procesando fila ${index + 1}:`, error)
+      return null
+    }
   }
 
-  const results = await Promise.all(parsedCsv.rows.map((row) => processRow(row)))
+  const batchSize = 5
+  const results = []
+
+  for (let i = 0; i < parsedCsv.rows.length; i += batchSize) {
+    const batch = parsedCsv.rows.slice(i, i + batchSize)
+    const batchResults = await Promise.all(
+      batch.map((row, batchIndex) => processRow(row, i + batchIndex))
+    )
+    results.push(...batchResults.filter((r) => r !== null))
+
+    if (i + batchSize < parsedCsv.rows.length) {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  }
 
   return results
 }

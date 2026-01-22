@@ -32,7 +32,10 @@ export function ObjectionsImpactChart({ data, loading }: ObjectionsImpactChartPr
     )
   }
 
-  const sortedData = [...data].sort((a, b) => b.impact - a.impact).slice(0, 10)
+  const sortedData = [...data]
+    .filter((item) => item.impact > 0)
+    .sort((a, b) => b.impact - a.impact)
+    .slice(0, 10)
 
   return (
     <Card>

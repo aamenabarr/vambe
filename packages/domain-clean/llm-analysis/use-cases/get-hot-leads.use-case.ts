@@ -35,6 +35,7 @@ export const getHotLeadsUseCase = async () => {
   const analyses = (await llmAnalysisRepository.findAllWithRelations()) as AnalysisWithRelations[]
 
   const hotLeads: HotLead[] = analyses
+    .filter((analysis) => analysis.leadScore >= 80)
     .map((analysis) => {
       const meeting = analysis.meeting
       if (!meeting) return null
@@ -44,7 +45,7 @@ export const getHotLeadsUseCase = async () => {
 
       let status = 'Frío'
       if (analysis.leadScore >= 86) status = 'Muy Caliente'
-      else if (analysis.leadScore >= 61) status = 'Caliente'
+      else if (analysis.leadScore >= 80) status = 'Caliente'
       else if (analysis.leadScore >= 31) status = 'Tibio'
 
       return {

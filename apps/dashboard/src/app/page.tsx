@@ -18,19 +18,14 @@ export default async function Home() {
         hotLeadsCloseRate: 0,
       },
       hotLeads: [],
-      salesAgentSpecialization: { buyerSentiment: [], techMaturity: [] },
       closuresOverTime: [],
-      closuresBySalesAgent: [],
       buyerSentimentVsClosures: [],
-      objectionsAnalysis: { frequency: [], impact: [] },
+      objectionsAnalysis: { frequency: [] },
       industryClosures: [],
       discoverySources: [],
-      averageLeadScoreByAgent: [],
       conversionBySource: [],
-      purchaseIntentionDistribution: [],
       techMaturityVsClosures: [],
       customerPainsByIndustry: [],
-      leadScoreVsCloseRate: [],
     }
   }
 

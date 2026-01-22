@@ -36,9 +36,15 @@ export function ClosuresOverTimeChart({ data, loading }: ClosuresOverTimeChartPr
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
-            <XAxis dataKey="date" />
+            <XAxis 
+              dataKey="date" 
+              tickFormatter={(value) => value}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip 
+              labelFormatter={(value) => value}
+              formatter={(value: number) => [value, 'Cierres']}
+            />
             <Line type="monotone" dataKey="count" stroke={VAMBE_COLORS.secondary} strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
