@@ -140,6 +140,7 @@ export function Dashboard({
           onClick={handleUploadClick}
           icon={<Upload className="size-4" />}
           className="bg-white text-[#0033CC] hover:bg-gray-100"
+          disabled={true}
         >
           Subir CSV
         </Button>
