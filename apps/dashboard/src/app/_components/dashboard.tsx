@@ -1,18 +1,49 @@
-'use client'
-
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
-import { BuyerSentimentVsClosuresChart } from './buyer-sentiment-vs-closures-chart'
-import { ClosuresOverTimeChart } from './closures-over-time-chart'
-import { ConversionBySourceChart } from './conversion-by-source-chart'
-import { CustomerPainsHeatmap } from './customer-pains-heatmap'
-import { DiscoverySourcesDonutChart } from './discovery-sources-donut-chart'
 import { HotLeadsTable } from './hot-leads-table'
-import { IndustryClosuresChart } from './industry-closures-chart'
 import { MetricsCards } from './metrics-cards'
-import { ObjectionsFrequencyChart } from './objections-frequency-chart'
-import { TechMaturityVsClosuresChart } from './tech-maturity-vs-closures-chart'
 import { UploadCsvButton } from './upload-csv-button'
+
+const BuyerSentimentVsClosuresChart = dynamic(
+  () => import('./buyer-sentiment-vs-closures-chart').then(mod => ({ default: mod.BuyerSentimentVsClosuresChart })),
+  { ssr: false }
+)
+
+const ClosuresOverTimeChart = dynamic(
+  () => import('./closures-over-time-chart').then(mod => ({ default: mod.ClosuresOverTimeChart })),
+  { ssr: false }
+)
+
+const ConversionBySourceChart = dynamic(
+  () => import('./conversion-by-source-chart').then(mod => ({ default: mod.ConversionBySourceChart })),
+  { ssr: false }
+)
+
+const CustomerPainsHeatmap = dynamic(
+  () => import('./customer-pains-heatmap').then(mod => ({ default: mod.CustomerPainsHeatmap })),
+  { ssr: false }
+)
+
+const DiscoverySourcesDonutChart = dynamic(
+  () => import('./discovery-sources-donut-chart').then(mod => ({ default: mod.DiscoverySourcesDonutChart })),
+  { ssr: false }
+)
+
+const IndustryClosuresChart = dynamic(
+  () => import('./industry-closures-chart').then(mod => ({ default: mod.IndustryClosuresChart })),
+  { ssr: false }
+)
+
+const ObjectionsFrequencyChart = dynamic(
+  () => import('./objections-frequency-chart').then(mod => ({ default: mod.ObjectionsFrequencyChart })),
+  { ssr: false }
+)
+
+const TechMaturityVsClosuresChart = dynamic(
+  () => import('./tech-maturity-vs-closures-chart').then(mod => ({ default: mod.TechMaturityVsClosuresChart })),
+  { ssr: false }
+)
 
 interface MetricsCardsData {
   averageLeadScore: number
