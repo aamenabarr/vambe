@@ -2,12 +2,16 @@ import { getAllMetricsUseCase } from 'domain-clean/llm-analysis/use-cases/get-al
 
 import { Dashboard } from './_components/dashboard'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function Home() {
   let data
 
   try {
     data = await getAllMetricsUseCase()
   } catch (error) {
+    console.error('Error fetching metrics:', error)
     data = {
       metricsCards: {
         averageLeadScore: 0,
