@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 
 import { BuyerSentimentVsClosuresChart } from './buyer-sentiment-vs-closures-chart'
