@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Filters } from "@/hooks/use-filters";
 import type { Lead, LeadScore } from "@/lib/types";
-import { LEAD_SCORE_LABELS } from "@/lib/translations";
+import { tLabel } from "@/lib/translations";
 
 interface FiltersProps {
   filters: Filters;
@@ -27,31 +27,14 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
     return Array.from(years).sort((a, b) => b - a);
   }, [leads]);
 
-  const toggleAgent = (agent: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      agents: prev.agents.includes(agent)
-        ? prev.agents.filter((a) => a !== agent)
-        : [...prev.agents, agent],
-    }));
-  };
-
-  const toggleScore = (score: LeadScore) => {
-    setFilters((prev) => ({
-      ...prev,
-      scores: prev.scores.includes(score)
-        ? prev.scores.filter((s) => s !== score)
-        : [...prev.scores, score],
-    }));
-  };
-
-  const toggleClosed = (status: "closed" | "open") => {
-    setFilters((prev) => ({
-      ...prev,
-      closedStatus: prev.closedStatus.includes(status)
-        ? prev.closedStatus.filter((s) => s !== status)
-        : [...prev.closedStatus, status],
-    }));
+  const toggle = <K extends keyof Filters>(key: K, value: Filters[K] extends (infer T)[] ? T : never) => {
+    setFilters((prev) => {
+      const arr = prev[key] as typeof value[];
+      return {
+        ...prev,
+        [key]: arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value],
+      };
+    });
   };
 
   const hasActiveFilters =
@@ -98,7 +81,7 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
                   ? "bg-primary text-primary-foreground"
                   : "border-white/20 hover:bg-white/10"
               }`}
-              onClick={() => toggleAgent(agent)}
+              onClick={() => toggle("agents", agent)}
             >
               {agent}
             </Badge>
@@ -124,9 +107,9 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
                     : "bg-blue-600 text-white"
                   : "border-white/20 hover:bg-white/10"
               }`}
-              onClick={() => toggleScore(score)}
+              onClick={() => toggle("scores", score)}
             >
-              {LEAD_SCORE_LABELS[score]}
+              {tLabel(score)}
             </Badge>
           ))}
         </div>
@@ -149,7 +132,7 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
                   ? "bg-primary text-primary-foreground"
                   : "border-white/20 hover:bg-white/10"
               }`}
-              onClick={() => toggleClosed(key)}
+              onClick={() => toggle("closedStatus", key)}
             >
               {label}
             </Badge>
