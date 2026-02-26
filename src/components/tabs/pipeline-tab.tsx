@@ -94,94 +94,6 @@ export function PipelineTab({ leads }: PipelineTabProps) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <Card className="lg:col-span-2 bg-card/50 backdrop-blur-sm border-white/10">
-          <CardHeader>
-            <CardTitle className="text-sm">Leads por Mes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={areaConfig} className="h-[250px] w-full">
-              <AreaChart data={monthlyLeads}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="month" fontSize={11} tickLine={false} axisLine={false} interval={0} angle={-35} textAnchor="end" height={50} />
-                <YAxis fontSize={12} tickLine={false} axisLine={false} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Area
-                  type="monotone"
-                  dataKey="total"
-                  fill="var(--color-total)"
-                  fillOpacity={0.3}
-                  stroke="var(--color-total)"
-                />
-                <Area
-                  type="monotone"
-                  dataKey="cerrados"
-                  fill="var(--color-cerrados)"
-                  fillOpacity={0.3}
-                  stroke="var(--color-cerrados)"
-                />
-              </AreaChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
-          <CardHeader>
-            <CardTitle className="text-sm">Lead Score</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={scoreConfig} className="h-[250px] w-full">
-              <PieChart>
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Pie
-                  data={scoreDistribution}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={50}
-                  outerRadius={80}
-                  paddingAngle={4}
-                >
-                  {scoreDistribution.map((entry) => (
-                    <Cell
-                      key={entry.name}
-                      fill={SCORE_COLORS[entry.name] || SCORE_COLORS.OTHER}
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ChartContainer>
-            <div className="flex justify-center gap-4 mt-2">
-              {scoreDistribution.map((s) => (
-                <div key={s.name} className="flex items-center gap-1.5 text-xs">
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: SCORE_COLORS[s.name] || SCORE_COLORS.OTHER }}
-                  />
-                  {s.name} ({s.value})
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card className="bg-card/50 backdrop-blur-sm border-white/10">
-        <CardHeader>
-          <CardTitle className="text-sm">Conversión por Mes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={barConfig} className="h-[200px] w-full">
-            <BarChart data={conversionByMonth}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="month" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis fontSize={12} tickLine={false} axisLine={false} unit="%" />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Bar dataKey="tasa" fill="var(--color-tasa)" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
-
       <Card className="bg-card/50 backdrop-blur-sm border-white/10">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-sm">Listado de Leads</CardTitle>
@@ -273,6 +185,94 @@ export function PipelineTab({ leads }: PipelineTabProps) {
               </div>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="lg:col-span-2 bg-card/50 backdrop-blur-sm border-white/10">
+          <CardHeader>
+            <CardTitle className="text-sm">Leads por Mes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={areaConfig} className="h-[250px] w-full">
+              <AreaChart data={monthlyLeads}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="month" fontSize={11} tickLine={false} axisLine={false} interval={0} angle={-35} textAnchor="end" height={50} />
+                <YAxis fontSize={12} tickLine={false} axisLine={false} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area
+                  type="monotone"
+                  dataKey="total"
+                  fill="var(--color-total)"
+                  fillOpacity={0.3}
+                  stroke="var(--color-total)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="cerrados"
+                  fill="var(--color-cerrados)"
+                  fillOpacity={0.3}
+                  stroke="var(--color-cerrados)"
+                />
+              </AreaChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
+          <CardHeader>
+            <CardTitle className="text-sm">Lead Score</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={scoreConfig} className="h-[250px] w-full">
+              <PieChart>
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Pie
+                  data={scoreDistribution}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={4}
+                >
+                  {scoreDistribution.map((entry) => (
+                    <Cell
+                      key={entry.name}
+                      fill={SCORE_COLORS[entry.name] || SCORE_COLORS.OTHER}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+            <div className="flex justify-center gap-4 mt-2">
+              {scoreDistribution.map((s) => (
+                <div key={s.name} className="flex items-center gap-1.5 text-xs">
+                  <div
+                    className="w-2.5 h-2.5 rounded-full"
+                    style={{ backgroundColor: SCORE_COLORS[s.name] || SCORE_COLORS.OTHER }}
+                  />
+                  {s.name} ({s.value})
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="bg-card/50 backdrop-blur-sm border-white/10">
+        <CardHeader>
+          <CardTitle className="text-sm">Conversión por Mes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={barConfig} className="h-[200px] w-full">
+            <BarChart data={conversionByMonth}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+              <XAxis dataKey="month" fontSize={12} tickLine={false} axisLine={false} />
+              <YAxis fontSize={12} tickLine={false} axisLine={false} unit="%" />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="tasa" fill="var(--color-tasa)" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ChartContainer>
         </CardContent>
       </Card>
 

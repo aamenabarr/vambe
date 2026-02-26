@@ -114,56 +114,6 @@ export function SegmentationTab({ leads }: SegmentationTabProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="bg-card/50 backdrop-blur-sm border-white/10">
           <CardHeader>
-            <CardTitle className="text-sm">Leads por Industria</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={industryConfig} className="h-[500px] w-full">
-              <BarChart data={industriesChart} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  width={100}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="value" fill="var(--color-value)" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
-          <CardHeader>
-            <CardTitle className="text-sm">Conversión por Industria</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={conversionConfig} className="h-[500px] w-full">
-              <BarChart data={conversionByIndustry} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} unit="%" domain={[0, 100]} />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  fontSize={10}
-                  tickLine={false}
-                  axisLine={false}
-                  width={100}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="tasa" fill="var(--color-tasa)" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
-          <CardHeader>
             <CardTitle className="text-sm">Tamaño de Empresa</CardTitle>
           </CardHeader>
           <CardContent>
@@ -231,6 +181,56 @@ export function SegmentationTab({ leads }: SegmentationTabProps) {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
+          <CardHeader>
+            <CardTitle className="text-sm">Leads por Industria</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={industryConfig} className="h-[500px] w-full">
+              <BarChart data={industriesChart} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  width={100}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="value" fill="var(--color-value)" radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card/50 backdrop-blur-sm border-white/10">
+          <CardHeader>
+            <CardTitle className="text-sm">Conversión por Industria</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={conversionConfig} className="h-[500px] w-full">
+              <BarChart data={conversionByIndustry} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis type="number" fontSize={12} tickLine={false} axisLine={false} unit="%" domain={[0, 100]} />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  width={100}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="tasa" fill="var(--color-tasa)" radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
