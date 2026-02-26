@@ -1,0 +1,15 @@
+Analyze this sales meeting transcript and extract categories. Return ONLY a JSON object with these exact fields and values:
+
+- "industry": FINANCE | RETAIL | HEALTHCARE | TECH | EDUCATION | LOGISTICS | TRAVEL | FASHION | CONSULTING | FOOD_BEVERAGE | REAL_ESTATE | NON_PROFIT | MANUFACTURING | OTHER | UNKNOWN
+- "company_size": SMALL | MEDIUM | LARGE | ENTERPRISE | OTHER | UNKNOWN
+- "main_pain_points": array of: HIGH_WORKLOAD | REPETITIVE_QUERIES | SCALABILITY_ISSUES | MANUAL_INEFFICIENCY | SLOW_RESPONSE_TIME | DATA_PRIVACY | INTEGRATION_DIFFICULTY | MULTILINGUAL_SUPPORT | OTHER | UNKNOWN
+- "discovery_source": CONFERENCE | SEARCH_ENGINE | NETWORKING | REFERRAL | SOCIAL_MEDIA | WEBINAR | ARTICLE | OTHER | UNKNOWN
+- "integrations": array of: CRM | ECOMMERCE_PLATFORM | SCHEDULING_SYSTEM | ERP | API | CHAT_PLATFORM | TICKETING_SYSTEM | PROPERTY_DATABASE | OTHER | UNKNOWN
+- "opportunities": array of: AUTOMATION | CX_IMPROVEMENT | PERSONALIZATION | TEAM_EFFICIENCY | INTERNATIONAL_EXPANSION | COST_REDUCTION | SCALABILITY | OTHER | UNKNOWN
+- "lead_score": HOT | WARM | COLD | OTHER | UNKNOWN
+
+Rules:
+- Arrays can have multiple values
+- Single fields must have exactly one value
+- Use UNKNOWN only when transcript provides no evidence
+- lead_score: HOT = clear need + budget + urgency, WARM = interest + good fit, COLD = just exploring
