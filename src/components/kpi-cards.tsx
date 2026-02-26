@@ -28,6 +28,18 @@ export function KpiCards({ filteredLeads, allLeads, processingStatus, isPolling 
   const countHot = useCountUp(hotLeads);
   const countProcessed = useCountUp(processed, 800, !isProcessing);
   const countTotalAll = useCountUp(totalAll, 800, !isProcessing);
+  const countProcessedLive = useCountUp(
+    processingStatus?.processed ?? 0,
+    500,
+    !!isProcessing,
+    true
+  );
+  const countTotalLive = useCountUp(
+    processingStatus?.total ?? 0,
+    500,
+    !!isProcessing,
+    true
+  );
 
   const cards = [
     {
@@ -61,7 +73,10 @@ export function KpiCards({ filteredLeads, allLeads, processingStatus, isPolling 
       <Card className="bg-card/50 backdrop-blur-sm border-white/10">
         <CardContent className="pt-2 pb-2">
           <p className="text-sm text-muted-foreground">Leads Procesados</p>
-          <p className="text-3xl font-bold mt-1">{isProcessing ? processed : countProcessed}/{isProcessing ? totalAll : countTotalAll}</p>
+          <p className="text-3xl font-bold mt-1">
+            {isProcessing ? countProcessedLive : countProcessed}/
+            {isProcessing ? countTotalLive : countTotalAll}
+          </p>
           {isProcessing ? (
             <div className="flex items-center gap-2 mt-1">
               <Progress value={progress} className="h-2 flex-1" />

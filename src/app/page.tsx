@@ -16,7 +16,7 @@ export default function Dashboard() {
   const { leads, loading, processingStatus, uploadCSV, isPolling } = useLeads();
   const { filters, setFilters, filteredLeads, availableAgents } = useFilters(leads);
 
-  if (loading) {
+  if (loading && leads.length === 0) {
     return (
       <div className="min-h-screen">
         <Header onUpload={uploadCSV} />

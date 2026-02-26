@@ -1,21 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useCountUp(
   end: number,
   duration = 800,
-  enabled = true
+  enabled = true,
+  fromPrevious = false
 ): number {
-  const [count, setCount] = useState(enabled ? 0 : end);
+  const [count, setCount] = useState(enabled ? (fromPrevious ? end : 0) : end);
+  const prevEnd = useRef(end);
 
   useEffect(() => {
     if (!enabled) {
+      prevEnd.current = end;
       const id = requestAnimationFrame(() => setCount(end));
       return () => cancelAnimationFrame(id);
     }
 
-    const start = 0;
+    const start = fromPrevious ? prevEnd.current : 0;
+    prevEnd.current = end;
     const startTime = performance.now();
     let rafId: number;
 
@@ -30,7 +34,7 @@ export function useCountUp(
 
     rafId = requestAnimationFrame(update);
     return () => cancelAnimationFrame(rafId);
-  }, [end, duration, enabled]);
+  }, [end, duration, enabled, fromPrevious]);
 
   return count;
 }

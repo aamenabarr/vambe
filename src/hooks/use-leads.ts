@@ -35,7 +35,6 @@ export function useLeads() {
   }, [fetchStatus]);
 
   const uploadCSV = useCallback(async (file: File) => {
-    setLoading(true);
     const formData = new FormData();
     formData.append("file", file);
     await fetch("/api/upload", { method: "POST", body: formData });
