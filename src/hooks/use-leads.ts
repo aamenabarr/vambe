@@ -46,10 +46,10 @@ export function useLeads() {
   useEffect(() => {
     fetchLeads().then(fetchStatus).then((status) => {
       if (status && status.pending > 0) {
-        startProcessing();
+        setIsPolling(true);
       }
     });
-  }, [fetchLeads, fetchStatus, startProcessing]);
+  }, [fetchLeads, fetchStatus]);
 
   useEffect(() => {
     if (!isPolling) return;

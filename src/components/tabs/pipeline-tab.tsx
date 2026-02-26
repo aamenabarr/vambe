@@ -38,7 +38,7 @@ import {
   getConversionByMonth,
   getLeadScoreDistribution,
 } from "@/lib/metrics";
-import { INDUSTRY_LABELS, LEAD_SCORE_LABELS } from "@/lib/translations";
+import { tLabel } from "@/lib/translations";
 
 interface PipelineTabProps {
   leads: Lead[];
@@ -54,17 +54,17 @@ const barConfig: ChartConfig = {
 };
 
 const SCORE_COLORS: Record<string, string> = {
-  HOT: "#22c55e",
-  WARM: "#eab308",
-  COLD: "#3b82f6",
-  OTHER: "#6b7280",
-  UNKNOWN: "#374151",
+  Caliente: "#22c55e",
+  Tibio: "#eab308",
+  Frío: "#3b82f6",
+  Otro: "#6b7280",
+  Desconocido: "#374151",
 };
 
 const scoreConfig: ChartConfig = {
-  HOT: { label: "Caliente", color: SCORE_COLORS.HOT },
-  WARM: { label: "Tibio", color: SCORE_COLORS.WARM },
-  COLD: { label: "Frío", color: SCORE_COLORS.COLD },
+  Caliente: { label: "Caliente", color: SCORE_COLORS.Caliente },
+  Tibio: { label: "Tibio", color: SCORE_COLORS.Tibio },
+  Frío: { label: "Frío", color: SCORE_COLORS.Frío },
 };
 
 const scoreBadgeColors: Record<string, string> = {
@@ -82,7 +82,7 @@ export function PipelineTab({ leads }: PipelineTabProps) {
 
   const monthlyLeads = getLeadsByMonth(leads);
   const conversionByMonth = getConversionByMonth(leads);
-  const scoreDistribution = getLeadScoreDistribution(leads);
+  const scoreDistribution = getLeadScoreDistribution(leads).map((d) => ({ ...d, name: tLabel(d.name) }));
 
   const filtered = leads.filter(
     (l) =>
@@ -157,7 +157,7 @@ export function PipelineTab({ leads }: PipelineTabProps) {
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: SCORE_COLORS[s.name] || SCORE_COLORS.OTHER }}
                   />
-                  {LEAD_SCORE_LABELS[s.name] || s.name} ({s.value})
+                  {s.name} ({s.value})
                 </div>
               ))}
             </div>
@@ -218,13 +218,13 @@ export function PipelineTab({ leads }: PipelineTabProps) {
                   <TableCell className="font-medium">{l.name}</TableCell>
                   <TableCell className="text-muted-foreground">{l.email}</TableCell>
                   <TableCell className="text-muted-foreground">
-                    {l.industry ? INDUSTRY_LABELS[l.industry] || l.industry : "—"}
+                    {l.industry ? tLabel(l.industry) : "—"}
                   </TableCell>
                   <TableCell>{l.salesAgent.name}</TableCell>
                   <TableCell>
                     {l.leadScore ? (
                       <Badge className={scoreBadgeColors[l.leadScore] || ""}>
-                        {LEAD_SCORE_LABELS[l.leadScore] || l.leadScore}
+                        {tLabel(l.leadScore)}
                       </Badge>
                     ) : (
                       "—"
