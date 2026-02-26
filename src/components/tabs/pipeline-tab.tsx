@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -121,36 +122,39 @@ export function PipelineTab({ leads }: PipelineTabProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginated.map((l) => (
-                <TableRow
+              {paginated.map((l, index) => (
+                <motion.tr
                   key={l.id}
-                  className="border-white/5 cursor-pointer hover:bg-white/5"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  className="border-white/5 cursor-pointer hover:bg-white/5 border-b transition-colors [&:hover]:bg-white/5"
                   onClick={() => setSelectedLead(l)}
                 >
-                  <TableCell className="font-medium">{l.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{l.email}</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {l.industry ? tLabel(l.industry) : "—"}
-                  </TableCell>
-                  <TableCell>{l.salesAgent.name}</TableCell>
-                  <TableCell>
-                    {l.leadScore ? (
-                      <Badge className={scoreBadgeColors[l.leadScore] || ""}>
-                        {tLabel(l.leadScore)}
+                    <TableCell className="font-medium">{l.name}</TableCell>
+                    <TableCell className="text-muted-foreground">{l.email}</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {l.industry ? tLabel(l.industry) : "—"}
+                    </TableCell>
+                    <TableCell>{l.salesAgent.name}</TableCell>
+                    <TableCell>
+                      {l.leadScore ? (
+                        <Badge className={scoreBadgeColors[l.leadScore] || ""}>
+                          {tLabel(l.leadScore)}
+                        </Badge>
+                      ) : (
+                        "—"
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={l.isClosed ? "default" : "secondary"}>
+                        {l.isClosed ? "Cerrado" : "Abierto"}
                       </Badge>
-                    ) : (
-                      "—"
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={l.isClosed ? "default" : "secondary"}>
-                      {l.isClosed ? "Cerrado" : "Abierto"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {new Date(l.meetingDate).toLocaleDateString("es-CL")}
-                  </TableCell>
-                </TableRow>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {new Date(l.meetingDate).toLocaleDateString("es-CL")}
+                    </TableCell>
+                </motion.tr>
               ))}
             </TableBody>
           </Table>

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -70,8 +71,14 @@ export function TeamTab({ leads }: TeamTabProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {summary.map((agent) => (
-                <TableRow key={agent.name} className="border-white/5">
+              {summary.map((agent, index) => (
+                <motion.tr
+                  key={agent.name}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="border-white/5 border-b transition-colors"
+                >
                   <TableCell className="font-medium">{agent.name}</TableCell>
                   <TableCell className="text-right">{agent.total}</TableCell>
                   <TableCell className="text-right">{agent.closed}</TableCell>
@@ -79,7 +86,7 @@ export function TeamTab({ leads }: TeamTabProps) {
                   <TableCell className="text-right text-green-400">{agent.hot}</TableCell>
                   <TableCell className="text-right text-yellow-400">{agent.warm}</TableCell>
                   <TableCell className="text-right text-blue-400">{agent.cold}</TableCell>
-                </TableRow>
+                </motion.tr>
               ))}
             </TableBody>
           </Table>

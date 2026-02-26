@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import type { Lead, ProcessingStatus } from "@/lib/types";
 import { getKpiMetrics } from "@/lib/metrics";
+import { useCountUp } from "@/hooks/use-count-up";
 
 interface KpiCardsProps {
   filteredLeads: Lead[];
@@ -22,20 +23,26 @@ export function KpiCards({ filteredLeads, allLeads, processingStatus, isPolling 
       ? Math.round((processingStatus.processed / processingStatus.total) * 100)
       : 0;
 
+  const countTotal = useCountUp(total);
+  const countConversion = useCountUp(conversionRate);
+  const countHot = useCountUp(hotLeads);
+  const countProcessed = useCountUp(processed, 800, !isProcessing);
+  const countTotalAll = useCountUp(totalAll, 800, !isProcessing);
+
   const cards = [
     {
       title: "Total Leads",
-      value: total,
+      value: countTotal,
       subtitle: `${total - closed} leads abiertos`,
     },
     {
       title: "Tasa de Conversión",
-      value: `${conversionRate}%`,
+      value: `${countConversion}%`,
       subtitle: `${closed} cerrados de ${total}`,
     },
     {
       title: "Leads Hot",
-      value: hotLeads,
+      value: countHot,
       subtitle: total > 0 ? `${Math.round((hotLeads / total) * 100)}% del total` : "0%",
     },
   ];
@@ -54,7 +61,7 @@ export function KpiCards({ filteredLeads, allLeads, processingStatus, isPolling 
       <Card className="bg-card/50 backdrop-blur-sm border-white/10">
         <CardContent className="pt-2 pb-2">
           <p className="text-sm text-muted-foreground">Leads Procesados</p>
-          <p className="text-3xl font-bold mt-1">{processed}/{totalAll}</p>
+          <p className="text-3xl font-bold mt-1">{isProcessing ? processed : countProcessed}/{isProcessing ? totalAll : countTotalAll}</p>
           {isProcessing ? (
             <div className="flex items-center gap-2 mt-1">
               <Progress value={progress} className="h-2 flex-1" />
