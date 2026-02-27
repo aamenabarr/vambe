@@ -11,8 +11,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Filters } from "@/hooks/use-filters";
-import type { Lead, LeadScore } from "@/lib/types";
-import { tLabel } from "@/lib/translations";
+import type { Lead } from "@/lib/types";
+import { LeadScore } from "@/lib/types";
+import { tLabel, COMMON } from "@/lib/translations";
 
 interface FiltersProps {
   filters: Filters;
@@ -94,15 +95,15 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
       <div className="flex items-center gap-2">
         <span className="text-xs text-muted-foreground">Score:</span>
         <div className="flex gap-1">
-          {(["HOT", "WARM", "COLD"] as LeadScore[]).map((score) => (
+          {[LeadScore.HOT, LeadScore.WARM, LeadScore.COLD].map((score) => (
             <Badge
               key={score}
               variant={filters.scores.includes(score) ? "default" : "outline"}
               className={`cursor-pointer text-xs ${
                 filters.scores.includes(score)
-                  ? score === "HOT"
-                    ? "bg-green-600 text-white"
-                    : score === "WARM"
+                  ? score === LeadScore.HOT
+                    ? "bg-red-600 text-white"
+                    : score === LeadScore.WARM
                     ? "bg-yellow-600 text-white"
                     : "bg-blue-600 text-white"
                   : "border-white/20 hover:bg-white/10"
@@ -121,8 +122,8 @@ export function GlobalFilters({ filters, setFilters, availableAgents, leads }: F
         <span className="text-xs text-muted-foreground">Estado:</span>
         <div className="flex gap-1">
           {([
-            { key: "closed" as const, label: "Cerrado" },
-            { key: "open" as const, label: "Abierto" },
+            { key: "closed" as const, label: COMMON.closed },
+            { key: "open" as const, label: COMMON.open },
           ]).map(({ key, label }) => (
             <Badge
               key={key}

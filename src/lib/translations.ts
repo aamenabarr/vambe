@@ -88,6 +88,15 @@ export const LEAD_STATUS_LABELS: Record<string, string> = {
   UNPROCESSED: "Sin procesar",
 };
 
+export const COMMON = {
+  leads: "Leads",
+  total: "Total",
+  cerrados: "Cerrados",
+  conversionRate: "Conversión %",
+  closed: "Cerrado",
+  open: "Abierto",
+} as const;
+
 export function t(dictionaries: Record<string, string>, key: string): string {
   return dictionaries[key] || key;
 }

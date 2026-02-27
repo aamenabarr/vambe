@@ -11,16 +11,14 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid } from "recharts";
-import type { Lead, Industry } from "@/lib/types";
+import { Industry, type Lead } from "@/lib/types";
 import {
   getLeadsByIndustry,
   getCompanySizeDistribution,
   getDiscoverySourceDistribution,
   getConversionByIndustry,
 } from "@/lib/metrics";
-import {
-  tLabel,
-} from "@/lib/translations";
+import { tLabel, COMMON } from "@/lib/translations";
 
 interface SegmentationTabProps {
   leads: Lead[];
@@ -33,19 +31,19 @@ const COLORS = [
 ];
 
 const industryConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-1)" },
+  value: { label: COMMON.leads, color: "var(--chart-1)" },
 };
 
 const conversionConfig: ChartConfig = {
-  tasa: { label: "Conversión %", color: "var(--chart-2)" },
+  tasa: { label: COMMON.conversionRate, color: "var(--chart-2)" },
 };
 
 const sizeConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-1)" },
+  value: { label: COMMON.leads, color: "var(--chart-1)" },
 };
 
 const sourceConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-1)" },
+  value: { label: COMMON.leads, color: "var(--chart-1)" },
 };
 
 export function SegmentationTab({ leads }: SegmentationTabProps) {
@@ -64,7 +62,7 @@ export function SegmentationTab({ leads }: SegmentationTabProps) {
     [leads, industryFilters]
   );
 
-  const TAIL = ["OTHER", "UNKNOWN"];
+  const TAIL: string[] = [Industry.OTHER, Industry.UNKNOWN];
   const allIndustries = getLeadsByIndustry(leads).sort((a, b) => {
     const ai = TAIL.indexOf(a.name);
     const bi = TAIL.indexOf(b.name);

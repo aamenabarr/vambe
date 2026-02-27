@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import type { Lead } from "@/lib/types";
+import { LeadScore, LeadStatus } from "@/lib/types";
 import { tLabel } from "@/lib/translations";
 
 interface LeadDetailModalProps {
@@ -17,9 +18,9 @@ interface LeadDetailModalProps {
 }
 
 const scoreColors: Record<string, string> = {
-  HOT: "bg-green-500/20 text-green-400 border-green-500/30",
-  WARM: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  COLD: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  [LeadScore.HOT]: "bg-red-500/20 text-red-400 border-red-500/30",
+  [LeadScore.WARM]: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+  [LeadScore.COLD]: "bg-blue-500/20 text-blue-400 border-blue-500/30",
 };
 
 export function LeadDetailModal({ lead, open, onClose }: LeadDetailModalProps) {
@@ -61,7 +62,7 @@ export function LeadDetailModal({ lead, open, onClose }: LeadDetailModalProps) {
           </Section>
         </div>
 
-        {lead.leadStatus === "PROCESSED" && (
+        {lead.leadStatus === LeadStatus.PROCESSED && (
           <>
             <div className="grid grid-cols-2 gap-4 text-sm mt-2">
               <Section title="Categorías IA">

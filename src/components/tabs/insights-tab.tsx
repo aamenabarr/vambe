@@ -17,27 +17,27 @@ import {
   getTopIntegrations,
   getConversionByScore,
 } from "@/lib/metrics";
-import { tLabel } from "@/lib/translations";
+import { tLabel, COMMON } from "@/lib/translations";
 
 interface InsightsTabProps {
   leads: Lead[];
 }
 
 const painConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-1)" },
+  value: { label: COMMON.leads, color: "var(--chart-1)" },
 };
 
 const oppConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-2)" },
+  value: { label: COMMON.leads, color: "var(--chart-2)" },
 };
 
 const intConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-4)" },
+  value: { label: COMMON.leads, color: "var(--chart-4)" },
 };
 
 const convConfig: ChartConfig = {
-  total: { label: "Total", color: "var(--chart-1)" },
-  cerrados: { label: "Cerrados", color: "#22c55e" },
+  total: { label: COMMON.total, color: "var(--chart-1)" },
+  cerrados: { label: COMMON.cerrados, color: "#22c55e" },
 };
 
 export function InsightsTab({ leads }: InsightsTabProps) {

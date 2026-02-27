@@ -1,21 +1,26 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useTransition } from "react";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { uploadCSVAction } from "@/lib/actions/upload-csv-action";
 
-interface HeaderProps {
-  onUpload: (file: File) => void;
-}
-
-export function Header({ onUpload }: HeaderProps) {
+export function Header() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isPending, startTransition] = useTransition();
+  const queryClient = useQueryClient();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      onUpload(file);
       e.target.value = "";
+      const formData = new FormData();
+      formData.append("file", file);
+      startTransition(async () => {
+        await uploadCSVAction(formData);
+        queryClient.invalidateQueries({ queryKey: ["leads"] });
+      });
     }
   };
 
@@ -33,6 +38,7 @@ export function Header({ onUpload }: HeaderProps) {
           />
           <Button
             onClick={() => inputRef.current?.click()}
+            disabled={isPending}
             className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
           >
             Subir CSV

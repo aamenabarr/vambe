@@ -1,0 +1,202 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{longtable}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{gray!10}
+}
+
+\title{\textbf{Vambe Dashboard} \\ Documentación Técnica}
+
+\begin{document}
+\maketitle
+
+\section{Descripción General}
+
+Dashboard de análisis de leads para Vambe AI. La aplicación permite subir un archivo CSV con datos de reuniones de venta, procesar las transcripciones con OpenAI para extraer categorías relevantes y visualizar las métricas resultantes en un panel interactivo con filtros, KPIs, gráficos y tablas.
+
+\section{Justificación del Stack Tecnológico}
+
+\subsection{Next.js 16 + React 19}
+
+Next.js permite tener frontend y backend en un solo proyecto mediante API Routes. Esto simplifica el desarrollo y el despliegue, ya que no es necesario mantener un servidor aparte. Además, al ser un framework de React, permite usar componentes reutilizables y el ecosistema de React.
+
+\subsection{TypeScript}
+
+TypeScript agrega tipado estático a JavaScript, lo que permite detectar errores en tiempo de desarrollo antes de ejecutar el código. El tipado previene bugs difíciles de encontrar y mejora la experiencia de desarrollo con autocompletado.
+
+\subsection{ESLint}
+
+ESLint analiza el código en busca de patrones problemáticos (variables no usadas, imports innecesarios, etc.). Ayuda a mantener un código limpio y consistente.
+
+\subsection{Drizzle ORM}
+
+Drizzle es un ORM type-safe para TypeScript que genera queries SQL eficientes. Tiene buen rendimiento en entornos serverless (como Neon) y permite definir el schema directamente en TypeScript con soporte nativo para enums de PostgreSQL y relational queries.
+
+\subsection{Neon (PostgreSQL serverless)}
+
+Neon provee PostgreSQL serverless con conexión HTTP, ideal para proyectos desplegados en plataformas como Vercel que usan funciones serverless. No requiere mantener un pool de conexiones persistente. Se integra directamente con Drizzle mediante el driver \texttt{neon-http}.
+
+\subsection{Vercel}
+
+Vercel es la plataforma natural para desplegar Next.js. Ofrece despliegue automático desde GitHub, funciones serverless y preview deployments.
+
+\subsection{Recharts + shadcn/ui}
+
+Inicialmente se planificó usar Tremor como librería de gráficos, pero Tremor v3 no es compatible con React 19. Se migró a shadcn/ui, que integra Recharts internamente y es compatible con React 19 y Tailwind v4.
+
+\subsection{OpenAI (gpt-4o-mini)}
+
+Se eligió OpenAI porque ya contaba con créditos disponibles en la plataforma. El modelo \texttt{gpt-4o-mini} ofrece un buen balance entre costo y calidad dada la necesidad de esta app. Se envían 20 transcripciones a la vez para maximizar velocidad sin exceder rate limits.
+
+\section{Categorías extraídas por OpenAI}
+
+\subsection{Proceso de definición de categorías}
+
+Las categorías y sus valores posibles fueron determinados mediante un análisis manual de las transcripciones del CSV. Se leyeron múltiples transcripciones para identificar patrones recurrentes:
+
+\begin{itemize}[noitemsep]
+  \item Las transcripciones mencionan industrias específicas (finanzas, retail, salud, etc.), lo que motivó el campo \textbf{industry}.
+  \item Los clientes describen el tamaño de su operación, motivando \textbf{company\_size}.
+  \item Expresan problemas concretos (carga de trabajo, consultas repetitivas, escalabilidad), motivando \textbf{main\_pain\_points}.
+  \item Mencionan cómo conocieron a Vambe (conferencia, referido, búsqueda web), motivando \textbf{discovery\_source}.
+  \item Discuten sistemas que usan o necesitan integrar (CRM, ERP, ecommerce), motivando \textbf{integrations}.
+  \item Se identifican oportunidades de negocio (automatización, reducción de costos, expansión), motivando \textbf{opportunities}.
+  \item El nivel de interés y urgencia varía entre leads, motivando \textbf{lead\_score}.
+\end{itemize}
+
+\subsection{Prompt y configuración}
+
+El prompt se almacena en \texttt{src/lib/prompt.txt} e indica al modelo a retornar exclusivamente un JSON con los campos definidos. Se usa \texttt{response\_format: json\_object} para forzar salida JSON válida. Además, se implementó validación post-respuesta que sanitiza valores fuera de los enums, mapeándolos a \texttt{OTHER}, ya que el LLM ocasionalmente genera valores no contemplados (ej: ``PODCAST'', ``LEGAL'').
+
+\section{Métricas y Gráficos}
+
+\subsection{KPI Cards (métricas globales)}
+
+Cuatro indicadores principales visibles siempre en la parte superior:
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Total Leads:} conteo de leads según filtros activos
+  \item \textbf{Tasa de Conversión:} porcentaje de leads cerrados sobre el total filtrado.
+  \item \textbf{Leads Hot:} cantidad de leads con score HOT y su porcentaje del total.
+  \item \textbf{Leads Procesados:} progreso del procesamiento IA. Muestra barra de progreso durante el procesamiento.
+\end{itemize}
+
+\subsection{Tab Pipeline}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Leads por Mes} (AreaChart): agrupa leads por mes de reunión y muestra total y cerrados.
+  \item \textbf{Lead Score} (Donut/PieChart): distribución de leads por score.
+  \item \textbf{Conversión por Mes} (BarChart): tasa de conversión mensual.
+  \item \textbf{Listado de Leads} (Tabla paginada): click abre modal con detalle completo incluyendo insights IA y transcripción. Incluye buscador.
+\end{itemize}
+
+\subsection{Tab Equipo}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Leads por Vendedor} (BarChart horizontal): conteo de leads asignados a cada vendedor.
+  \item \textbf{Conversión por Vendedor} (BarChart horizontal): tasa de conversión de cada vendedor.
+  \item \textbf{Score por Vendedor} (BarChart apilado): distribución HOT/WARM/COLD por vendedor.
+  \item \textbf{Resumen por Vendedor} (Tabla): total, cerrados, tasa, HOT, WARM, COLD por vendedor.
+\end{itemize}
+
+\subsection{Tab Segmentación}
+
+Incluye filtro local multi-select por industria que afecta todos los gráficos de esta tab.
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Leads por Industria} (BarChart horizontal): conteo por industria.
+  \item \textbf{Conversión por Industria} (BarChart horizontal): tasa de conversión por industria.
+  \item \textbf{Tamaño de Empresa} (Donut/PieChart): distribución porcentual de tamaños. Donut para mostrar proporciones de un todo.
+  \item \textbf{Fuente de Descubrimiento} (Donut/PieChart): cómo los leads conocieron a Vambe.
+\end{itemize}
+
+\subsection{Tab Insights IA}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Top Pain Points} (BarChart horizontal): los problemas más mencionados en transcripciones.
+  \item \textbf{Top Oportunidades} (BarChart horizontal): oportunidades de negocio más frecuentes.
+  \item \textbf{Integraciones Solicitadas} (BarChart horizontal): sistemas que los leads necesitan integrar.
+  \item \textbf{Conversión por Lead Score} (BarChart agrupado): total vs cerrados por cada nivel de score.
+\end{itemize}
+
+\section{Arquitectura y Decisiones Clave}
+
+\subsection{Modelo de Datos}
+
+Dos tablas con relación uno-a-muchos: \textbf{sales\_agent} (vendedor) y \textbf{lead}. Los campos de categorización IA usan \texttt{pgEnum}.
+
+\subsection{Filtrado client-side}
+
+Con 60 registros, el filtrado server-side agregaría complejidad innecesaria. Se trae toda la data en una llamada y se filtra en React, lo que da respuesta instantánea en los filtros. \textbf{Trade-off:} no escala a miles de registros; en ese caso se movería a queries con paginación server-side.
+
+\subsection{Procesamiento fire-and-forget}
+
+El \texttt{POST /api/process} retorna inmediatamente y procesa en background. Si el usuario recarga la página, el procesamiento continúa en el servidor. Un flag \texttt{isProcessing} previene ejecuciones duplicadas. Cada lead se actualiza individualmente para que un fallo no afecte a otros.
+
+\subsection{Polling cada 3 segundos en vez de workers}
+
+Para monitorear el progreso del procesamiento, el frontend consulta el endpoint de status cada 3 segundos. Se evaluaron alternativas como workers, pero para este contexto de prueba técnica con un solo usuario, el flag \texttt{isProcessing} en memoria cumple la misma función sin dependencias externas. Los workers serían la solución correcta en producción con múltiples usuarios.
+
+\subsection{Borrado previo al upload}
+
+Cada upload elimina datos existentes antes de insertar. Simplifica el flujo y asegura que el dashboard refleja exactamente el CSV cargado.
+
+\section{Estructura del Proyecto}
+
+\begin{lstlisting}
+src/
+  app/
+    api/
+      leads/route.ts       # GET leads y status
+      process/route.ts     # POST procesamiento IA
+    page.tsx               # Dashboard principal
+    layout.tsx, globals.css, providers.tsx
+  components/
+    header.tsx             # Header con upload
+    filters.tsx            # Filtros globales
+    kpi-cards.tsx          # 4 cards de metricas
+    lead-detail-modal.tsx  # Modal detalle de lead
+    dashboard-skeleton.tsx # Skeleton de carga
+    tabs/
+      pipeline-tab.tsx     # Leads por mes, conversion, tabla
+      team-tab.tsx         # Metricas por vendedor
+      segmentation-tab.tsx # Industria, tamanio, fuente
+      insights-tab.tsx     # Pain points, oportunidades
+    ui/                    # Componentes shadcn/ui
+  hooks/
+    use-filters.ts         # Filtros client-side
+    use-count-up.ts        # Animacion numeros KPI
+  lib/
+    actions/
+      upload-csv-action.ts # Server action para upload CSV
+    db/
+      schema.ts            # Schema Drizzle con enums
+      index.ts             # Conexion Neon
+      leads.ts             # getLeads, postLeads, getUnprocessedLeads, updateLeadWithInsights
+    fetchers/
+      leads-fetcher.ts     # TanStack Query para /api/leads
+    use-cases/
+      get-leads.ts         # Caso de uso: obtener leads
+      post-leads.ts        # Caso de uso: insertar leads desde CSV
+      process-leads.ts     # Caso de uso: procesar transcripciones con IA
+    llm/
+      openai.ts            # Integracion OpenAI + validacion
+      prompt.txt           # System prompt para gpt-4o-mini
+    metrics.ts             # Funciones puras de metricas
+    translations.ts        # Traducciones de enums
+    types.ts               # Tipos y enums
+    utils.ts               # Utilidades
+\end{lstlisting}
+
+\end{document}

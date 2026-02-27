@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import type { Lead } from "@/lib/types";
+import { LeadScore } from "@/lib/types";
+import { tLabel, COMMON } from "@/lib/translations";
 import {
   getLeadsByAgent,
   getConversionByAgent,
@@ -32,17 +34,17 @@ interface TeamTabProps {
 }
 
 const leadsConfig: ChartConfig = {
-  value: { label: "Leads", color: "var(--chart-1)" },
+  value: { label: COMMON.leads, color: "var(--chart-1)" },
 };
 
 const conversionConfig: ChartConfig = {
-  tasa: { label: "Conversión %", color: "var(--chart-2)" },
+  tasa: { label: COMMON.conversionRate, color: "var(--chart-2)" },
 };
 
 const scoreConfig: ChartConfig = {
-  HOT: { label: "Caliente", color: "#22c55e" },
-  WARM: { label: "Tibio", color: "#eab308" },
-  COLD: { label: "Frío", color: "#3b82f6" },
+  [LeadScore.HOT]: { label: tLabel(LeadScore.HOT), color: "#ef4444" },
+  [LeadScore.WARM]: { label: tLabel(LeadScore.WARM), color: "#eab308" },
+  [LeadScore.COLD]: { label: tLabel(LeadScore.COLD), color: "#3b82f6" },
 };
 
 export function TeamTab({ leads }: TeamTabProps) {
@@ -83,7 +85,7 @@ export function TeamTab({ leads }: TeamTabProps) {
                   <TableCell className="text-right">{agent.total}</TableCell>
                   <TableCell className="text-right">{agent.closed}</TableCell>
                   <TableCell className="text-right">{agent.conversionRate}%</TableCell>
-                  <TableCell className="text-right text-green-400">{agent.hot}</TableCell>
+                  <TableCell className="text-right text-red-400">{agent.hot}</TableCell>
                   <TableCell className="text-right text-yellow-400">{agent.warm}</TableCell>
                   <TableCell className="text-right text-blue-400">{agent.cold}</TableCell>
                 </motion.tr>
@@ -141,9 +143,9 @@ export function TeamTab({ leads }: TeamTabProps) {
               <YAxis fontSize={12} tickLine={false} axisLine={false} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="HOT" stackId="a" fill="var(--color-HOT)" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="WARM" stackId="a" fill="var(--color-WARM)" />
-              <Bar dataKey="COLD" stackId="a" fill="var(--color-COLD)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={LeadScore.HOT} stackId="a" fill="var(--color-HOT)" radius={[0, 0, 0, 0]} />
+              <Bar dataKey={LeadScore.WARM} stackId="a" fill="var(--color-WARM)" />
+              <Bar dataKey={LeadScore.COLD} stackId="a" fill="var(--color-COLD)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ChartContainer>
         </CardContent>

@@ -1,4 +1,5 @@
 import type { Lead } from "./types";
+import { LeadScore, LeadStatus } from "./types";
 
 function groupBy<T>(arr: T[], key: (item: T) => string): Record<string, T[]> {
   return arr.reduce((acc, item) => {
@@ -37,8 +38,8 @@ export function getKpiMetrics(filtered: Lead[], all: Lead[]) {
   const total = filtered.length;
   const closed = filtered.filter((l) => l.isClosed).length;
   const conversionRate = total > 0 ? Math.round((closed / total) * 100) : 0;
-  const hotLeads = filtered.filter((l) => l.leadScore === "HOT").length;
-  const processed = all.filter((l) => l.leadStatus === "PROCESSED").length;
+  const hotLeads = filtered.filter((l) => l.leadScore === LeadScore.HOT).length;
+  const processed = all.filter((l) => l.leadStatus === LeadStatus.PROCESSED).length;
 
   return { total, closed, conversionRate, hotLeads, processed, totalAll: all.length };
 }
@@ -109,9 +110,9 @@ export function getScoreByAgent(leads: Lead[]) {
   const grouped = groupBy(leads, (l) => l.salesAgent.name);
   return Object.entries(grouped).map(([name, items]) => ({
     name,
-    HOT: items.filter((l) => l.leadScore === "HOT").length,
-    WARM: items.filter((l) => l.leadScore === "WARM").length,
-    COLD: items.filter((l) => l.leadScore === "COLD").length,
+    [LeadScore.HOT]: items.filter((l) => l.leadScore === LeadScore.HOT).length,
+    [LeadScore.WARM]: items.filter((l) => l.leadScore === LeadScore.WARM).length,
+    [LeadScore.COLD]: items.filter((l) => l.leadScore === LeadScore.COLD).length,
   }));
 }
 
@@ -125,9 +126,9 @@ export function getAgentSummary(leads: Lead[]) {
         total: items.length,
         closed,
         conversionRate: items.length > 0 ? Math.round((closed / items.length) * 100) : 0,
-        hot: items.filter((l) => l.leadScore === "HOT").length,
-        warm: items.filter((l) => l.leadScore === "WARM").length,
-        cold: items.filter((l) => l.leadScore === "COLD").length,
+        hot: items.filter((l) => l.leadScore === LeadScore.HOT).length,
+        warm: items.filter((l) => l.leadScore === LeadScore.WARM).length,
+        cold: items.filter((l) => l.leadScore === LeadScore.COLD).length,
       };
     })
     .sort((a, b) => b.conversionRate - a.conversionRate);

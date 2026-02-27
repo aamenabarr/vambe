@@ -34,44 +34,54 @@ import {
 } from "recharts";
 import { LeadDetailModal } from "@/components/lead-detail-modal";
 import type { Lead } from "@/lib/types";
+import { LeadScore } from "@/lib/types";
 import {
   getLeadsByMonth,
   getConversionByMonth,
   getLeadScoreDistribution,
 } from "@/lib/metrics";
-import { tLabel } from "@/lib/translations";
+import { tLabel, COMMON } from "@/lib/translations";
 
 interface PipelineTabProps {
   leads: Lead[];
 }
 
 const areaConfig: ChartConfig = {
-  total: { label: "Total", color: "var(--chart-1)" },
-  cerrados: { label: "Cerrados", color: "var(--chart-2)" },
+  total: { label: COMMON.total, color: "var(--chart-1)" },
+  cerrados: { label: COMMON.cerrados, color: "var(--chart-2)" },
 };
 
 const barConfig: ChartConfig = {
-  tasa: { label: "Conversión %", color: "var(--chart-1)" },
+  tasa: { label: COMMON.conversionRate, color: "var(--chart-1)" },
 };
 
 const SCORE_COLORS: Record<string, string> = {
-  Caliente: "#22c55e",
-  Tibio: "#eab308",
-  Frío: "#3b82f6",
-  Otro: "#6b7280",
-  Desconocido: "#374151",
+  [LeadScore.HOT]: "#ef4444",
+  [LeadScore.WARM]: "#eab308",
+  [LeadScore.COLD]: "#3b82f6",
+  [LeadScore.OTHER]: "#6b7280",
+  [LeadScore.UNKNOWN]: "#374151",
+  [tLabel(LeadScore.HOT)]: "#ef4444",
+  [tLabel(LeadScore.WARM)]: "#eab308",
+  [tLabel(LeadScore.COLD)]: "#3b82f6",
+  [tLabel(LeadScore.OTHER)]: "#6b7280",
+  [tLabel(LeadScore.UNKNOWN)]: "#374151",
 };
 
 const scoreConfig: ChartConfig = {
-  Caliente: { label: "Caliente", color: SCORE_COLORS.Caliente },
-  Tibio: { label: "Tibio", color: SCORE_COLORS.Tibio },
-  Frío: { label: "Frío", color: SCORE_COLORS.Frío },
+  [tLabel(LeadScore.HOT)]: { label: tLabel(LeadScore.HOT), color: SCORE_COLORS[LeadScore.HOT] },
+  [tLabel(LeadScore.WARM)]: { label: tLabel(LeadScore.WARM), color: SCORE_COLORS[LeadScore.WARM] },
+  [tLabel(LeadScore.COLD)]: { label: tLabel(LeadScore.COLD), color: SCORE_COLORS[LeadScore.COLD] },
+  [tLabel(LeadScore.OTHER)]: { label: tLabel(LeadScore.OTHER), color: SCORE_COLORS[LeadScore.OTHER] },
+  [tLabel(LeadScore.UNKNOWN)]: { label: tLabel(LeadScore.UNKNOWN), color: SCORE_COLORS[LeadScore.UNKNOWN] },
 };
 
 const scoreBadgeColors: Record<string, string> = {
-  HOT: "bg-green-500/20 text-green-400",
-  WARM: "bg-yellow-500/20 text-yellow-400",
-  COLD: "bg-blue-500/20 text-blue-400",
+  [LeadScore.HOT]: "bg-red-500/20 text-red-400",
+  [LeadScore.WARM]: "bg-yellow-500/20 text-yellow-400",
+  [LeadScore.COLD]: "bg-blue-500/20 text-blue-400",
+  [LeadScore.OTHER]: "bg-gray-500/20 text-gray-400",
+  [LeadScore.UNKNOWN]: "bg-gray-600/20 text-gray-400",
 };
 
 const PAGE_SIZE = 10;
@@ -148,7 +158,7 @@ export function PipelineTab({ leads }: PipelineTabProps) {
                     </TableCell>
                     <TableCell>
                       <Badge variant={l.isClosed ? "default" : "secondary"}>
-                        {l.isClosed ? "Cerrado" : "Abierto"}
+                        {l.isClosed ? COMMON.closed : COMMON.open}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-muted-foreground">

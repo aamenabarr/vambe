@@ -1,42 +1,24 @@
 import { pgTable, uuid, varchar, text, boolean, timestamp, pgEnum } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import {
+  LeadStatus,
+  Industry,
+  CompanySize,
+  PainPoint,
+  DiscoverySource,
+  Integration,
+  Opportunity,
+  LeadScore,
+} from "@/lib/types";
 
-export const leadStatusEnum = pgEnum("lead_status", ["PROCESSED", "UNPROCESSED"]);
-
-export const industryEnum = pgEnum("industry", [
-  "FINANCE", "RETAIL", "HEALTHCARE", "TECH", "EDUCATION", "LOGISTICS",
-  "TRAVEL", "FASHION", "CONSULTING", "FOOD_BEVERAGE", "REAL_ESTATE",
-  "NON_PROFIT", "MANUFACTURING", "OTHER", "UNKNOWN",
-]);
-
-export const companySizeEnum = pgEnum("company_size", [
-  "SMALL", "MEDIUM", "LARGE", "ENTERPRISE", "OTHER", "UNKNOWN",
-]);
-
-export const painPointsEnum = pgEnum("pain_points", [
-  "HIGH_WORKLOAD", "REPETITIVE_QUERIES", "SCALABILITY_ISSUES",
-  "MANUAL_INEFFICIENCY", "SLOW_RESPONSE_TIME", "DATA_PRIVACY",
-  "INTEGRATION_DIFFICULTY", "MULTILINGUAL_SUPPORT", "OTHER", "UNKNOWN",
-]);
-
-export const discoverySourceEnum = pgEnum("discovery_source", [
-  "CONFERENCE", "SEARCH_ENGINE", "NETWORKING", "REFERRAL",
-  "SOCIAL_MEDIA", "WEBINAR", "ARTICLE", "OTHER", "UNKNOWN",
-]);
-
-export const integrationsEnum = pgEnum("integrations", [
-  "CRM", "ECOMMERCE_PLATFORM", "SCHEDULING_SYSTEM", "ERP", "API",
-  "CHAT_PLATFORM", "TICKETING_SYSTEM", "PROPERTY_DATABASE", "OTHER", "UNKNOWN",
-]);
-
-export const opportunitiesEnum = pgEnum("opportunities", [
-  "AUTOMATION", "CX_IMPROVEMENT", "PERSONALIZATION", "TEAM_EFFICIENCY",
-  "INTERNATIONAL_EXPANSION", "COST_REDUCTION", "SCALABILITY", "OTHER", "UNKNOWN",
-]);
-
-export const leadScoreEnum = pgEnum("lead_score", [
-  "HOT", "WARM", "COLD", "OTHER", "UNKNOWN",
-]);
+export const leadStatusEnum = pgEnum("lead_status", LeadStatus);
+export const industryEnum = pgEnum("industry", Industry);
+export const companySizeEnum = pgEnum("company_size", CompanySize);
+export const painPointsEnum = pgEnum("pain_points", PainPoint);
+export const discoverySourceEnum = pgEnum("discovery_source", DiscoverySource);
+export const integrationsEnum = pgEnum("integrations", Integration);
+export const opportunitiesEnum = pgEnum("opportunities", Opportunity);
+export const leadScoreEnum = pgEnum("lead_score", LeadScore);
 
 export const salesAgent = pgTable("sales_agent", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -52,7 +34,7 @@ export const lead = pgTable("lead", {
   meetingDate: timestamp("meeting_date").notNull(),
   isClosed: boolean("is_closed").notNull().default(false),
   transcript: text("transcript").notNull(),
-  leadStatus: leadStatusEnum("lead_status").notNull().default("UNPROCESSED"),
+  leadStatus: leadStatusEnum("lead_status").notNull().default(LeadStatus.UNPROCESSED),
   industry: industryEnum("industry"),
   companySize: companySizeEnum("company_size"),
   mainPainPoints: text("main_pain_points"),
