@@ -1,5 +1,6 @@
 "use server";
 
+import { after } from "next/server";
 import { parse } from "csv-parse/sync";
 import { postLeadsUseCase } from "@/lib/use-cases/post-leads";
 import { processLeadsUseCase } from "@/lib/use-cases/process-leads";
@@ -18,5 +19,5 @@ export async function uploadCSVAction(formData: FormData) {
   }) as Record<string, string>[];
 
   await postLeadsUseCase(records);
-  processLeadsUseCase();
+  after(() => processLeadsUseCase());
 }

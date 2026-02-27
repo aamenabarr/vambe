@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/app/providers";
 
+export const maxDuration = 60;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
