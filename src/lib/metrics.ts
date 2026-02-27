@@ -194,3 +194,51 @@ export function getConversionByScore(leads: Lead[]) {
     cerrados: items.filter((l) => l.isClosed).length,
   }));
 }
+
+export interface VendorReassignmentData {
+  id: string;
+  name: string;
+  conversionIndustry: number | null;
+  conversionSize: number | null;
+  openLeadsCount: number;
+}
+
+export function getVendorDataForReassignment(
+  leads: Lead[],
+  lead: Lead
+): VendorReassignmentData[] {
+  const byAgent = groupBy(leads, (l) => l.salesAgent.id);
+  const targetIndustry = lead.industry;
+  const targetSize = lead.companySize;
+
+  return Object.entries(byAgent).map(([agentId, agentLeads]) => {
+    const agent = agentLeads[0].salesAgent;
+    const inIndustry = targetIndustry
+      ? agentLeads.filter((l) => l.industry === targetIndustry)
+      : [];
+    const inSize = targetSize
+      ? agentLeads.filter((l) => l.companySize === targetSize)
+      : [];
+    const conversionIndustry =
+      inIndustry.length > 0
+        ? Math.round(
+            (inIndustry.filter((l) => l.isClosed).length / inIndustry.length) *
+              100
+          )
+        : null;
+    const conversionSize =
+      inSize.length > 0
+        ? Math.round(
+            (inSize.filter((l) => l.isClosed).length / inSize.length) * 100
+          )
+        : null;
+    const openLeadsCount = agentLeads.filter((l) => !l.isClosed).length;
+    return {
+      id: agentId,
+      name: agent.name,
+      conversionIndustry,
+      conversionSize,
+      openLeadsCount,
+    };
+  });
+}

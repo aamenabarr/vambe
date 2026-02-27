@@ -67,6 +67,16 @@ export async function postLeads(records: CsvLeadRecord[]) {
   await db.insert(lead).values(leadValues);
 }
 
+export async function updateLeadSalesAgent(
+  leadId: string,
+  salesAgentId: string
+) {
+  await db
+    .update(lead)
+    .set({ salesAgentId })
+    .where(eq(lead.id, leadId));
+}
+
 export async function getUnprocessedLeads() {
   return db.query.lead.findMany({
     where: eq(lead.leadStatus, LeadStatus.UNPROCESSED),

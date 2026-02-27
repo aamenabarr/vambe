@@ -1,0 +1,11 @@
+Asigna esta lead al vendedor más adecuado según los datos proporcionados.
+
+Criterios (ambos con igual peso):
+- Tasa de conversión en la industria de la lead (mayor es mejor)
+- Tasa de conversión en el tamaño de empresa de la lead (mayor es mejor)
+- Balanceo de carga: si las tasas son similares, prefiere al vendedor con menos leads abiertas
+
+Si un vendedor no tiene datos en una dimensión (null), considera que tiene rendimiento neutro en esa dimensión.
+
+Devuelve ÚNICAMENTE un JSON con este formato:
+{"vendor_id": "uuid-del-vendedor-elegido"}

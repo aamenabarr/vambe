@@ -77,7 +77,7 @@ Las categorías y sus valores posibles fueron determinados mediante un análisis
 
 \subsection{Prompt y configuración}
 
-El prompt se almacena en \texttt{src/lib/prompt.txt} e indica al modelo a retornar exclusivamente un JSON con los campos definidos. Se usa \texttt{response\_format: json\_object} para forzar salida JSON válida. Además, se implementó validación post-respuesta que sanitiza valores fuera de los enums, mapeándolos a \texttt{OTHER}, ya que el LLM ocasionalmente genera valores no contemplados (ej: ``PODCAST'', ``LEGAL'').
+El prompt se almacena en \texttt{src/lib/llm/transcription-analysis-prompt.txt} e indica al modelo a retornar exclusivamente un JSON con los campos definidos. Se usa \texttt{response\_format: json\_object} para forzar salida JSON válida. Además, se implementó validación post-respuesta que sanitiza valores fuera de los enums, mapeándolos a \texttt{OTHER}, ya que el LLM ocasionalmente genera valores no contemplados (ej: ``PODCAST'', ``LEGAL'').
 
 \section{Métricas y Gráficos}
 
@@ -98,8 +98,19 @@ Cuatro indicadores principales visibles siempre en la parte superior:
   \item \textbf{Leads por Mes} (AreaChart): agrupa leads por mes de reunión y muestra total y cerrados.
   \item \textbf{Lead Score} (Donut/PieChart): distribución de leads por score.
   \item \textbf{Conversión por Mes} (BarChart): tasa de conversión mensual.
-  \item \textbf{Listado de Leads} (Tabla paginada): click abre modal con detalle completo incluyendo insights IA y transcripción. Incluye buscador.
+  \item \textbf{Listado de Leads} (Tabla paginada): click abre modal con detalle completo incluyendo insights IA y transcripción. Incluye buscador. En leads abiertas, el modal muestra botón ``Reasignar vendedor'' que asigna la lead al mejor vendedor mediante IA.
 \end{itemize}
+
+\subsection{Reasignación de vendedor por lead (IA)}
+
+En el modal de detalle de una lead abierta aparece el botón ``Reasignar vendedor''. Al usarlo:
+
+\begin{enumerate}[noitemsep]
+  \item Se obtienen todas las leads (\texttt{getLeads}) y se busca la lead por id en el array.
+  \item \texttt{getVendorDataForReassignment} calcula por vendedor: conversión \% en la industria de la lead, conversión \% en el tamaño de empresa, y leads abiertas actuales.
+  \item Se envía al LLM (prompt en \texttt{lead-reassignment-prompt.txt}) la lead (industria, tamaño) y la lista de vendedores con sus métricas. Industria y tamaño pesan igual.
+  \item El LLM retorna \texttt{vendor\_id}; se actualiza la lead con \texttt{updateLeadSalesAgent}.
+\end{enumerate}
 
 \subsection{Tab Equipo}
 
@@ -166,7 +177,7 @@ src/
     header.tsx             # Header con upload
     filters.tsx            # Filtros globales
     kpi-cards.tsx          # 4 cards de metricas
-    lead-detail-modal.tsx  # Modal detalle de lead
+    lead-detail-modal.tsx  # Modal detalle de lead + boton Reasignar vendedor
     dashboard-skeleton.tsx # Skeleton de carga
     tabs/
       pipeline-tab.tsx     # Leads por mes, conversion, tabla
@@ -179,24 +190,27 @@ src/
     use-count-up.ts        # Animacion numeros KPI
   lib/
     actions/
-      upload-csv-action.ts # Server action para upload CSV
+      upload-csv-action.ts    # Server action para upload CSV
+      reassign-lead-action.ts # Server action para reasignar vendedor de una lead
     db/
-      schema.ts            # Schema Drizzle con enums
-      index.ts             # Conexion Neon
-      leads.ts             # getLeads, postLeads, getUnprocessedLeads, updateLeadWithInsights
+      schema.ts              # Schema Drizzle con enums
+      index.ts               # Conexion Neon
+      leads.ts               # getLeads, updateLeadSalesAgent, ...
     fetchers/
       leads-fetcher.ts     # TanStack Query para /api/leads
     use-cases/
       get-leads.ts         # Caso de uso: obtener leads
       post-leads.ts        # Caso de uso: insertar leads desde CSV
       process-leads.ts     # Caso de uso: procesar transcripciones con IA
+      reassign-lead.ts     # Caso de uso: reasignar vendedor de una lead con LLM
     llm/
-      openai.ts            # Integracion OpenAI + validacion
-      prompt.txt           # System prompt para gpt-4o-mini
-    metrics.ts             # Funciones puras de metricas
-    translations.ts        # Traducciones de enums
-    types.ts               # Tipos y enums
-    utils.ts               # Utilidades
+      openai.ts                         # Integracion OpenAI, extractLeadInsights, reassignLeadWithLLM
+      transcription-analysis-prompt.txt # System prompt para extraccion de categorias
+      lead-reassignment-prompt.txt      # System prompt para asignar mejor vendedor
+    metrics.ts                          # Funciones puras de metricas, getVendorDataForReassignment
+    translations.ts                     # Traducciones de enums
+    types.ts                            # Tipos y enums
+    utils.ts                            # Utilidades
 \end{lstlisting}
 
 \end{document}

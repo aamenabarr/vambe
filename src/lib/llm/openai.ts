@@ -21,8 +21,13 @@ import {
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const systemPrompt = readFileSync(
-  join(process.cwd(), "src/lib/llm/prompt.txt"),
+const transcriptionAnalysisPrompt = readFileSync(
+  join(process.cwd(), "src/lib/llm/transcription-analysis-prompt.txt"),
+  "utf-8"
+);
+
+const leadReassignmentPrompt = readFileSync(
+  join(process.cwd(), "src/lib/llm/lead-reassignment-prompt.txt"),
   "utf-8"
 );
 
@@ -48,18 +53,29 @@ function sanitizeResult(raw: Record<string, unknown>): AIExtractionResult {
   };
 }
 
-export async function extractLeadInsights(transcript: string): Promise<AIExtractionResult> {
+export async function sendLLMPrompt(
+  message: string,
+  prompt: string
+): Promise<Record<string, unknown>> {
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.1,
     top_p: 0.1,
     response_format: { type: "json_object" },
     messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: transcript },
+      { role: "system", content: prompt },
+      { role: "user", content: message },
     ],
   });
+  return JSON.parse(response.choices[0].message.content!) as Record<string, unknown>;
+}
 
-  const raw = JSON.parse(response.choices[0].message.content!);
+export async function extractLeadInsights(transcript: string): Promise<AIExtractionResult> {
+  const raw = await sendLLMPrompt(transcript, transcriptionAnalysisPrompt);
   return sanitizeResult(raw);
+}
+
+export async function reassignLeadWithLLM(message: string): Promise<string> {
+  const raw = await sendLLMPrompt(message, leadReassignmentPrompt);
+  return raw.vendor_id as string;
 }

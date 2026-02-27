@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import { Sparkles } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,14 +9,17 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { Lead } from "@/lib/types";
 import { LeadScore, LeadStatus } from "@/lib/types";
 import { tLabel } from "@/lib/translations";
+import { reassignLeadAction } from "@/lib/actions/reassign-lead-action";
 
 interface LeadDetailModalProps {
   lead: Lead | null;
   open: boolean;
   onClose: () => void;
+  onReassignSuccess?: () => void;
 }
 
 const scoreColors: Record<string, string> = {
@@ -23,7 +28,19 @@ const scoreColors: Record<string, string> = {
   [LeadScore.COLD]: "bg-blue-500/20 text-blue-400 border-blue-500/30",
 };
 
-export function LeadDetailModal({ lead, open, onClose }: LeadDetailModalProps) {
+export function LeadDetailModal({
+  lead,
+  open,
+  onClose,
+  onReassignSuccess,
+}: LeadDetailModalProps) {
+  const mutation = useMutation({
+    mutationFn: (id: string) => reassignLeadAction(id),
+    onSuccess: (result) => {
+      if (result.success) onReassignSuccess?.();
+    },
+  });
+
   if (!lead) return null;
 
   return (
@@ -41,6 +58,18 @@ export function LeadDetailModal({ lead, open, onClose }: LeadDetailModalProps) {
 
           <Section title="Comercial">
             <Info label="Vendedor" value={lead.salesAgent.name} />
+            {!lead.isClosed && (
+              <Button
+                onClick={() => mutation.mutate(lead.id)}
+                disabled={mutation.isPending}
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs border-white/20"
+              >
+                <Sparkles className="w-4 h-4 mr-1.5" />
+                Reasignar vendedor
+              </Button>
+            )}
             <Info
               label="Fecha Reunión"
               value={new Date(lead.meetingDate).toLocaleDateString("es-CL")}

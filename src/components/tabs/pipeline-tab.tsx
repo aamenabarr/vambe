@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -89,7 +90,9 @@ const PAGE_SIZE = 10;
 export function PipelineTab({ leads }: PipelineTabProps) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const selectedLead = selectedLeadId ? leads.find((l) => l.id === selectedLeadId) ?? null : null;
 
   const monthlyLeads = getLeadsByMonth(leads);
   const conversionByMonth = getConversionByMonth(leads);
@@ -139,7 +142,7 @@ export function PipelineTab({ leads }: PipelineTabProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.04 }}
                   className="border-white/5 cursor-pointer hover:bg-white/5 border-b transition-colors [&:hover]:bg-white/5"
-                  onClick={() => setSelectedLead(l)}
+                  onClick={() => setSelectedLeadId(l.id)}
                 >
                     <TableCell className="font-medium">{l.name}</TableCell>
                     <TableCell className="text-muted-foreground">{l.email}</TableCell>
@@ -293,7 +296,8 @@ export function PipelineTab({ leads }: PipelineTabProps) {
       <LeadDetailModal
         lead={selectedLead}
         open={!!selectedLead}
-        onClose={() => setSelectedLead(null)}
+        onClose={() => setSelectedLeadId(null)}
+        onReassignSuccess={() => queryClient.invalidateQueries({ queryKey: ["leads"] })}
       />
     </div>
   );
